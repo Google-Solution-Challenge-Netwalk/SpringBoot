@@ -36,6 +36,11 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+  cloud:
+    gcp:
+      credentials:
+        location: ${gcp-secret-key}
+
 springdoc:
   version: 1.0
   packages-to-scan: gdsc.netwalk
@@ -51,12 +56,6 @@ springdoc:
     disabled: true
   default-produces-media-type: application/json;charset=UTF-8
   default-consumes-media-type: application/json;charset=UTF-8
-
-cloud:
-  gcp:
-    storage:
-      credentials:
-        location: ${gcp-secret-key}
 
 server:
   port: 8080
