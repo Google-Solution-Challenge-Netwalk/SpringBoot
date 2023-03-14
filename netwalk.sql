@@ -1,0 +1,87 @@
+-- netwalk.user_tb definition
+
+CREATE TABLE `user_tb` (
+  `USER_NO` int NOT NULL AUTO_INCREMENT COMMENT '회원번호',
+  `NAME` varchar(100) NOT NULL COMMENT '회원명',
+  `EMAIL` varchar(200) NOT NULL,
+  `IMG_URL` varchar(400) DEFAULT NULL COMMENT '프로필 이미지 URL',
+  `REG_DT` datetime NOT NULL COMMENT '등록일자',
+  `MOD_DT` datetime NOT NULL COMMENT '수정일자',
+  PRIMARY KEY (`USER_NO`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='회원';
+
+
+-- netwalk.group_tb definition
+
+CREATE TABLE `group_tb` (
+  `GROUP_NO` int NOT NULL AUTO_INCREMENT COMMENT '그룹번호',
+  `CREATE_USER_NO` int NOT NULL COMMENT '그룹생성회원번호',
+  `NAME` varchar(100) NOT NULL COMMENT '그룹명',
+  `CAPACITY` int NOT NULL COMMENT '정원',
+  `PARTICIPANT` int NOT NULL COMMENT '참여인원',
+  `CATEGORY` varchar(4) NOT NULL COMMENT '그룹구분',
+  `DEL_ST` binary(1) NOT NULL COMMENT '그룹삭제여부',
+  `REG_DT` datetime NOT NULL COMMENT '등록일자',
+  `MOD_DT` datetime NOT NULL COMMENT '수정일자',
+  PRIMARY KEY (`GROUP_NO`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='그룹';
+
+
+-- netwalk.user_group_tb definition
+
+CREATE TABLE `user_group_tb` (
+  `USER_NO` int NOT NULL COMMENT '회원번호',
+  `GROUP_NO` int NOT NULL COMMENT '그룹번호',
+  `ACT_ST` binary(1) NOT NULL COMMENT '활성화상태',
+  `DEL_ST` binary(1) NOT NULL COMMENT '탈퇴여부',
+  `REG_DT` datetime NOT NULL COMMENT '등록일자',
+  `MOD_DT` datetime NOT NULL COMMENT '수정일자',
+  PRIMARY KEY (`GROUP_NO`,`USER_NO`),
+  KEY `USER_GROUP_TB_FK` (`USER_NO`),
+  CONSTRAINT `USER_GROUP_TB_FK` FOREIGN KEY (`USER_NO`) REFERENCES `user_tb` (`USER_NO`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `USER_GROUP_TB_FK_1` FOREIGN KEY (`GROUP_NO`) REFERENCES `group_tb` (`GROUP_NO`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='그룹 참여자';
+
+
+-- netwalk.activity_tb definition
+
+CREATE TABLE `activity_tb` (
+  `ACT_NO` int NOT NULL AUTO_INCREMENT COMMENT '활동내역번호',
+  `USER_NO` int NOT NULL COMMENT '회원번호',
+  `GROUP_NO` int NOT NULL COMMENT '그룹번호',
+  `TOTAL_ACT_DISTANCE` double DEFAULT NULL COMMENT '총이동거리',
+  `TOTAL_ACT_TIME` double DEFAULT NULL COMMENT '총활동시간',
+  `SHARE_ST` binary(1) NOT NULL COMMENT '공유여부',
+  `REG_DT` datetime NOT NULL COMMENT '등록일자',
+  `MOD_DT` datetime NOT NULL COMMENT '수정일자',
+  PRIMARY KEY (`ACT_NO`),
+  KEY `ACTIVITY_TB_FK` (`USER_NO`),
+  KEY `ACTIVITY_TB_FK_1` (`GROUP_NO`),
+  CONSTRAINT `ACTIVITY_TB_FK` FOREIGN KEY (`USER_NO`) REFERENCES `user_tb` (`USER_NO`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `ACTIVITY_TB_FK_1` FOREIGN KEY (`GROUP_NO`) REFERENCES `group_tb` (`GROUP_NO`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='활동내역';
+
+
+-- netwalk.activity_distance_tb definition
+
+CREATE TABLE `activity_distance_tb` (
+  `ACT_DIST_NO` int NOT NULL AUTO_INCREMENT COMMENT '활동이동경로번호',
+  `ACT_NO` int NOT NULL COMMENT '활동내역번호',
+  `LATITUDE` double NOT NULL COMMENT '이동 경로 위도',
+  `LONGITUDE` double NOT NULL COMMENT '이동 경로 경도',
+  PRIMARY KEY (`ACT_DIST_NO`),
+  KEY `ACTIVITY_DISTANCE_TB_FK` (`ACT_NO`),
+  CONSTRAINT `ACTIVITY_DISTANCE_TB_FK` FOREIGN KEY (`ACT_NO`) REFERENCES `activity_tb` (`ACT_NO`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='활동 이동 경로';
+
+
+-- netwalk.activity_trash_tb definition
+
+CREATE TABLE `activity_trash_tb` (
+  `TRASH_NO` int NOT NULL AUTO_INCREMENT COMMENT '수집쓰레기번호',
+  `ACT_NO` int NOT NULL COMMENT '활동내역번호',
+  `IMG_URL` varchar(500) NOT NULL COMMENT '쓰레기 이미지 URL',
+  PRIMARY KEY (`TRASH_NO`),
+  KEY `ACTIVITY_TRASH_TB_FK` (`ACT_NO`),
+  CONSTRAINT `ACTIVITY_TRASH_TB_FK` FOREIGN KEY (`ACT_NO`) REFERENCES `activity_tb` (`ACT_NO`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='활동중 수집 쓰레기';

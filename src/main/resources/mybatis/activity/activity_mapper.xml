@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gdsc.netwalk.mapper.activity.ActivityMapper">
+
+    <insert id="registerActivity" parameterType="gdsc.netwalk.common.vo.CustomMap"
+			useGeneratedKeys="true" keyProperty="act_no" keyColumn="act_no">
+		<![CDATA[
+			INSERT INTO ACTIVITY_TB
+				(
+					USER_NO,
+					GROUP_NO,
+					TOTAL_ACT_DISTANCE,
+					TOTAL_ACT_TIME,
+					SHARE_ST,
+					REG_DT,
+					MOD_DT
+				)
+			VALUES
+				(
+					#{user_no},
+					#{group_no},
+					#{total_act_distance},
+					#{total_act_time},
+					#{share_st},
+					NOW(),
+					NOW()
+				);
+		]]>
+	</insert>
+
+	<insert id="registerActivityDistance" parameterType="gdsc.netwalk.common.vo.CustomMap">
+		<![CDATA[
+			INSERT INTO ACTIVITY_DISTANCE_TB
+				(
+					ACT_NO,
+					LATITUDE,
+					LONGITUDE
+				)
+			VALUES
+		]]>
+		<foreach item="degree" collection="customList" separator=",">
+			(
+			 	#{act_no},
+			 	#{degree.latitude},
+				#{degree.longitude}
+			 )
+		</foreach>
+
+	</insert>
+</mapper>

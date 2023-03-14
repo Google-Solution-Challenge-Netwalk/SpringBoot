@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gdsc.netwalk.mapper.user.UserMapper">
+
+    <insert id="registerUser" parameterType="gdsc.netwalk.common.vo.CustomMap"
+			useGeneratedKeys="true" keyProperty="user_no" keyColumn="user_no">
+		<![CDATA[
+			INSERT INTO USER_TB
+				(
+					NAME,
+					EMAIL,
+					REG_DT,
+					MOD_DT
+				)
+			VALUES
+				(
+					#{name},
+					#{email},
+					NOW(),
+					NOW()
+				);
+        ]]>
+	</insert>
+
+    <select id="selectUserByEmail" parameterType="String" resultType="gdsc.netwalk.domain.user.User">
+		<![CDATA[
+			SELECT
+				USER_NO,
+				EMAIL
+			FROM
+				USER_TB
+			WHERE
+				EMAIL = #{email};
+        ]]>
+	</select>
+</mapper>

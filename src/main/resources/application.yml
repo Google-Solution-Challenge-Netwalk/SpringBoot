@@ -1,0 +1,63 @@
+spring:
+  datasource:
+    hikari:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: ${datasource-url}
+      username: ${datasource-username}
+      password: ${datasource-password}
+
+  session:
+    jdbc:
+      initialize-schema: always
+
+  mybatis:
+    configuration:
+      multiple-result-sets-enabled: false
+      map-underscore-to-camel-case: true
+      call-setters-on-nulls: true
+      jdbc-type-for-null: varchar
+      default-fetch-size: 500
+
+  kafka:
+    consumer:
+      bootstrap-servers:
+        - localhost:9092
+      group-id: foo
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstrap-servers:
+        - localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+springdoc:
+  version: 1.0
+  packages-to-scan: gdsc.netwalk
+  swagger-ui:
+    path: /api-docs
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /api-docs/json
+    groups:
+      enabled: true
+  cache:
+    disabled: true
+  default-produces-media-type: application/json;charset=UTF-8
+  default-consumes-media-type: application/json;charset=UTF-8
+
+cloud:
+  gcp:
+    storage:
+      credentials:
+        location: ${gcp-secret-key}
+
+server:
+  port: 8080
+

@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "affable-case-376500",
+  "private_key_id": "d0fc60c7f7f24250d986f284ccd4a7968d259db8",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDQCE0vw2inh3Mi\nYRaEHKtqpg7vJs3MbkPWioOdGu0hnhTCpiX4NrS6H9OvUnlG6ThSeH3jK/QVAL/q\nefoEqp4hTHKLXOnG4HH8xRaf4YLWjoYUHjnjwqqgayY5/wYlEXLOJPchS+ryaE9O\nZt/gB9b2QmoO2rI61Wfh+E8zBZa7L93Txt65syidkYXYdh7gllqnzdA0wm01a70D\nTct8DMo1NiiRe7TbvbSdobh027FmoXBBHLhqZ1cZ6jQnJMcOMo09jk73XNuX4hKT\nq7fwQCD/mnUD42HPzb61IisszZJtSqNh5XADDGd0Wnh1hiflY+ttQuIH2ty/y4m1\nEEM7ZcglAgMBAAECggEACZtgiSSiiB4KtJs8MXSre9zYUrX9igPLkTRLWK1+Ju/I\ncKbAmSJZnUDMA0wxOpOZnMFguuV0O6YRts/UOnPwooQHxCTRzPPff7dQUKjW5Han\nfXVZ4glC3O6l0MbUr1CLdzagzQJXAsPLacj5bLyf8jZl9HKoCWyChB519dq7t8As\nQpzTonICiUt6ivTeMBpI5bXMVuOtVga37uDnlDjp5dsqgVL2+1bDHziD1hdDGFjK\nea1h+ucnlyGyl9LEiuHp/2wGtWQzdu9GM1YUh1o2ht0dDEtNW/pho+FpSvjQRjRn\nwf8EtQYVUEQ1fOgSnJ8PTO7rSH+IYJuwvXbdhbvCzwKBgQD5itbpEAp3YrdSVwUj\ngUv45pq0mw1SU5iwQB1ptg+jmhrLPOOe/b2ICANSxuQMbG40LmpXrUXH1cEHs5BG\nAc4ZK2IupX82ez4XMfnJTKpyxGWMFrAdlP7FQ5MG2MJ0vHOqPt50LvHGDZqdqgNU\n4RuMveBqQQxTfvcHwLlh/iGCQwKBgQDVanfpNJ8ti7cnalCH6iQbS3tBb9X9bc9U\n3Suw5JwT+V9tBaKs0+oO5WoIlWMCxjB1Vy5pAQrZTBZrNm+iyRuXshSZqmSScvua\nDk/IB/fPjT5OcBFVoXnJP+cYyssbESsOFIoo3fnd+k7eS6dn/7NV7lcoRclCkdDM\ndjZmXpypdwKBgGukdlwGrV0eWhHMs8zDA3CUmPt7Pt3abazpm0Z0YH6kBRbSZyW4\nMr+xJS3Z2Zl6VHdx5jF37vfqvt+Bl6R7NtoomqugfCWWOAxtZGBvD7999IffaYz5\nLoUNRyjW69rLR+GSSQc5ENXsHFwScGl2yRmG9n0fHiAOTqUrf0xEAVRdAoGBAKkP\namYm9WHTKAflRF4msOueY8l2moHkFzYW7qF2t91q0pk+uZtHVEbwnYqnLIPqFEEg\nCvfLh5iTmb7cpJrDzUPiIkeIn5sT0xQ6+iBvj3OvZAgm5tR60ksGgD83hqWud/jz\ndG7jSSj7PLcEH11XRe1wnUKd5c0CTfFqQ7XchSYJAoGBAKIXbyDZAU+1/3XLn52t\nD65uD/CDnBvTKu9SRJ5Io711oti/WFRYPajHmsbEZFVZcWCOsw4biqPY3BFmU1sX\ncz+AFOfrdUCjyxxo41/cqAzjvEQFmprk+5aiB45Wza5Ng9RUBlW3pb1RJQY4V1sc\nPIKdw4uEY7cIKnklRmh0T3S5\n-----END PRIVATE KEY-----\n",
+  "client_email": "id-023-netwalk@affable-case-376500.iam.gserviceaccount.com",
+  "client_id": "102136749910142561448",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/id-023-netwalk%40affable-case-376500.iam.gserviceaccount.com"
+}

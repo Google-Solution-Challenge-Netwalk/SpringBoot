@@ -1,0 +1,66 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.6'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'com.google.cloud.tools.jib' version '3.2.1'
+}
+
+group = 'gdsc'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+	mavenCentral()
+}
+
+jib {
+	from {
+		image = "openjdk:17-alpine"
+		auth {
+			username = project.DOCKER_ID
+			password = project.DOCKER_PASSWORD
+		}
+	}
+	to {
+		image = project.DOCKER_ID + "/" + project.DOCKER_IMAGE_NAME
+		auth {
+			username = project.DOCKER_ID
+			password = project.DOCKER_PASSWORD
+		}
+		tags = ["latest"]
+	}
+	container {
+		jvmFlags = ["-Xms128m", "-Xmx128m"]
+	}
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// jdbc + mybatis
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.0'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	// actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// gcp
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter', version: '1.2.5.RELEASE'
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-storage', version: '1.2.5.RELEASE'
+
+	// swaager
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+

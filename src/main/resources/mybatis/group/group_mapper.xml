@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gdsc.netwalk.mapper.group.GroupMapper">
+
+    <insert id="registerGroup" parameterType="gdsc.netwalk.common.vo.CustomMap">
+		<![CDATA[
+			INSERT INTO GROUP_TB
+				(
+				 	CREATE_USER_NO,
+					NAME,
+					CAPACITY,
+				 	PARTICIPANT,
+				 	CATEGORY,
+				    DEL_ST,
+					REG_DT,
+					MOD_DT
+				)
+			VALUES
+				(
+					#{create_user_no},
+					#{name},
+					#{capacity},
+					#{participant},
+					#{category},
+				    0,
+					NOW(),
+					NOW()
+				);
+        ]]>
+	</insert>
+
+	<select id="selectParticipateGroupList" parameterType="int" resultType="gdsc.netwalk.common.vo.CustomMap">
+		<![CDATA[
+			SELECT
+				GT.NAME,
+				GT.GROUP_NO,
+				GT.CREATE_USER_NO,
+				GT.CAPACITY,
+				GT.PARTICIPANT,
+				GT.CATEGORY,
+				DATE_FORMAT(GT.REG_DT, '%Y-%m-%d') AS REG_DT,
+				DATE_FORMAT(GT.MOD_DT, '%Y-%m-%d') AS MOD_DT,
+				UGT.ACT_ST,
+				UGT.DEL_ST
+			FROM
+				GROUP_TB GT
+			INNER JOIN USER_GROUP_TB UGT
+				ON GT.GROUP_NO = UGT.GROUP_NO
+			WHERE
+				GT.DEL_ST = 0 AND
+				UGT.USER_NO = #{userNo}
+		]]>
+	</select>
+
+	<select id="selectGroupListByCreateUserNo" parameterType="int" resultType="gdsc.netwalk.common.vo.CustomMap">
+		<![CDATA[
+			SELECT
+				GROUP_NO,
+				CREATE_USER_NO,
+				NAME,
+				CAPACITY,
+				PARTICIPANT,
+				CATEGORY,
+				DEL_ST,
+				DATE_FORMAT(REG_DT, '%Y-%m-%d') AS REG_DT,
+				DATE_FORMAT(MOD_DT, '%Y-%m-%d') AS MOD_DT
+			FROM
+				GROUP_TB
+			WHERE
+				CREATE_USER_NO = #{createUserNo};
+		]]>
+	</select>
+
+	<select id="isExistParticipatedByUserNo" parameterType="gdsc.netwalk.common.vo.CustomMap" resultType="int">
+		<![CDATA[
+			SELECT
+				COUNT(*)
+			FROM
+				USER_GROUP_TB
+			WHERE
+				USER_NO = #{user_no} AND
+				GROUP_NO = #{group_no};
+		]]>
+	</select>
+
+	<insert id="participateGroup" parameterType="gdsc.netwalk.common.vo.CustomMap">
+		<![CDATA[
+			INSERT INTO USER_GROUP_TB
+				(
+					USER_NO,
+					GROUP_NO,
+					ACT_ST,
+					DEL_ST,
+					REG_DT,
+					MOD_DT
+				)
+			VALUES
+				(
+					#{user_no},
+					#{group_no},
+				 	1,
+				 	0,
+				 	NOW(),
+					NOW()
+				);
+		]]>
+	</insert>
+
+	<select id="selectCategoryGroup" parameterType="gdsc.netwalk.common.vo.CustomMap" resultType="gdsc.netwalk.common.vo.CustomMap">
+		<![CDATA[
+			SELECT
+				GROUP_NO,
+				CREATE_USER_NO,
+				NAME,
+				CAPACITY,
+				PARTICIPANT,
+				CATEGORY,
+				DEL_ST,
+				DATE_FORMAT(REG_DT, '%Y-%m-%d') AS REG_DT,
+				DATE_FORMAT(MOD_DT, '%Y-%m-%d') AS MOD_DT
+			FROM
+				GROUP_TB
+			WHERE
+				CATEGORY = #{category}
+			ORDER BY
+				REG_DT DESC;
+		]]>
+	</select>
+
+	<select id="selectGroupInUsers" parameterType="int" resultType="gdsc.netwalk.common.vo.CustomMap">
+		<![CDATA[
+			-- 플로깅 기록과 관련된 내용도 추가해야함.
+			SELECT
+				UT.NAME,
+				UT.EMAIL
+			FROM
+				USER_GROUP_TB UGT INNER JOIN USER_TB UT
+											 ON UT.USER_NO = UGT.USER_NO
+			WHERE
+				UGT.GROUP_NO = #{groupNo};
+		]]>
+	</select>
+</mapper>
