@@ -34,8 +34,8 @@ public class GroupController {
     }
 
     @GetMapping("/part/{userNo}")
-    public ResponseEntity<CustomResponse> selectParticipateGroupList(HttpServletRequest request, @PathVariable("userNo") int createUserNo) {
-        CustomResponse response = groupService.selectParticipateGroupList(createUserNo);
+    public ResponseEntity<CustomResponse> selectParticipateGroupList(HttpServletRequest request, @PathVariable("userNo") int userNo) {
+        CustomResponse response = groupService.selectParticipateGroupList(userNo);
         return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
     }
 
