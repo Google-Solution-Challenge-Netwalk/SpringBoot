@@ -49,4 +49,28 @@
 		</foreach>
 
 	</insert>
+
+	<select id="selectActivityByUser" parameterType="gdsc.netwalk.common.vo.CustomMap" resultType="gdsc.netwalk.common.vo.CustomMap">
+		<![CDATA[
+			SELECT
+				GROUP_NO,
+				TOTAL_ACT_DISTANCE,
+				TOTAL_ACT_TIME,
+				SHARE_ST
+			FROM ACTIVITY_TB
+			WHERE USER_NO = #{user_no};
+		]]>
+	</select>
+
+	<select id="selectActivityDistanceByUser" parameterType="gdsc.netwalk.common.vo.CustomMap" resultType="gdsc.netwalk.common.vo.CustomMap">
+		<![CDATA[
+			SELECT
+				ADT.LATITUDE,
+				ADT.LONGITUDE
+			FROM ACTIVITY_TB ACT
+			INNER JOIN ACTIVITY_DISTANCE_TB ADT
+			ON ACT.ACT_NO = ADT.ACT_NO
+			WHERE ACT.USER_NO = #{user_no};
+		]]>
+	</select>
 </mapper>

@@ -2,7 +2,6 @@ package gdsc.netwalk.mapper.group;
 
 import gdsc.netwalk.common.vo.CustomList;
 import gdsc.netwalk.common.vo.CustomMap;
-import gdsc.netwalk.dto.common.CustomResponse;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
@@ -13,6 +12,5 @@ public interface GroupMapper {
     void participateGroup(CustomMap param);
     int isExistParticipatedByUserNo(CustomMap param);
     CustomList<CustomMap> selectCategoryGroup(CustomMap param);
-
     CustomList<CustomMap> selectGroupInUsers(int groupNo);
 }

@@ -1,5 +1,6 @@
 package gdsc.netwalk.controller.activity;
 
+import gdsc.netwalk.dto.activity.request.ActivityListRequest;
 import gdsc.netwalk.dto.activity.request.RegisterActivityRequest;
 import gdsc.netwalk.dto.common.CustomResponse;
 import gdsc.netwalk.service.activity.ActivityService;
@@ -23,6 +24,13 @@ public class ActivityController {
     @PostMapping
     public ResponseEntity<CustomResponse> registerActivity(@RequestBody RegisterActivityRequest registerActivityRequest) {
         CustomResponse response = activityService.registerActivity(registerActivityRequest);
+        return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @PostMapping("/user")
+    public ResponseEntity<CustomResponse> selectActivityByUser(@RequestBody ActivityListRequest activityListRequest) {
+        CustomResponse response = activityService.selectActivityByUser(activityListRequest);
         return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
     }
 }

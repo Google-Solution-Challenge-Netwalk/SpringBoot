@@ -2,7 +2,9 @@ package gdsc.netwalk.service.activity;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gdsc.netwalk.common.vo.CustomList;
 import gdsc.netwalk.common.vo.CustomMap;
+import gdsc.netwalk.dto.activity.request.ActivityListRequest;
 import gdsc.netwalk.dto.activity.request.RegisterActivityRequest;
 import gdsc.netwalk.dto.common.CustomResponse;
 import gdsc.netwalk.mapper.activity.ActivityMapper;
@@ -23,10 +25,12 @@ public class ActivityService {
             ObjectMapper mapper = new ObjectMapper();
             CustomMap param = mapper.convertValue(request, new TypeReference<CustomMap>() {});
 
+            // 혼자하는 플로깅 활동 기록을 등록할 때
+            if(param.getInt("group_no") == 0) {
+                param.set("group_no", null);
+            }
             // [1] 활동 상세 내역 등록
             activityMapper.registerActivity(param);
-
-            System.out.println(param);
 
             // [2] 활동 이동 경로 등록
             activityMapper.registerActivityDistance(param);
@@ -36,7 +40,37 @@ public class ActivityService {
 
         } catch (Exception e) {
             response.setStatus("FAIL");
-            response.setMessage("활동 내역 등 록 실패");
+            response.setMessage("활동 내역 등록 실패");
+
+            System.out.println("exception: " + e);
+        }
+        return response;
+    }
+
+    /*
+     * 활동 내역 조회
+     * */
+    public CustomResponse selectActivityByUser(ActivityListRequest request) {
+        CustomResponse response = new CustomResponse();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            CustomMap param = mapper.convertValue(request, new TypeReference<CustomMap>() {});
+
+            // [1] 활동 상세 내역 조회
+            CustomMap activity = activityMapper.selectActivityByUser(param);
+
+            // [2] 활동 거리 내역 조회
+            CustomList<CustomMap> distances = activityMapper.selectActivityDistanceByUser(param);
+            CustomMap result = activity;
+            result.set("distances", distances);
+
+            response.setObject(result);
+            response.setStatus("SUCCESS");
+            response.setMessage("활동 내역 조회 성공");
+
+        } catch (Exception e) {
+            response.setStatus("FAIL");
+            response.setMessage("활동 내역 조회 실패");
 
             System.out.println("exception: " + e);
         }

@@ -32,7 +32,7 @@ CREATE TABLE `group_tb` (
 CREATE TABLE `user_group_tb` (
   `USER_NO` int NOT NULL COMMENT '회원번호',
   `GROUP_NO` int NOT NULL COMMENT '그룹번호',
-  `ACT_ST` binary(1) NOT NULL COMMENT '활성화상태',
+  `ACT_ST` int NOT NULL COMMENT '활성화상태',
   `DEL_ST` binary(1) NOT NULL COMMENT '탈퇴여부',
   `REG_DT` datetime NOT NULL COMMENT '등록일자',
   `MOD_DT` datetime NOT NULL COMMENT '수정일자',
@@ -48,10 +48,10 @@ CREATE TABLE `user_group_tb` (
 CREATE TABLE `activity_tb` (
   `ACT_NO` int NOT NULL AUTO_INCREMENT COMMENT '활동내역번호',
   `USER_NO` int NOT NULL COMMENT '회원번호',
-  `GROUP_NO` int NOT NULL COMMENT '그룹번호',
+  `GROUP_NO` int DEFAULT NULL COMMENT '그룹번호',
   `TOTAL_ACT_DISTANCE` double DEFAULT NULL COMMENT '총이동거리',
   `TOTAL_ACT_TIME` double DEFAULT NULL COMMENT '총활동시간',
-  `SHARE_ST` binary(1) NOT NULL COMMENT '공유여부',
+  `SHARE_ST` int NOT NULL COMMENT '공유여부',
   `REG_DT` datetime NOT NULL COMMENT '등록일자',
   `MOD_DT` datetime NOT NULL COMMENT '수정일자',
   PRIMARY KEY (`ACT_NO`),
