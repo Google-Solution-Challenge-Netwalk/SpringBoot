@@ -6,6 +6,7 @@ build/
 !**/src/test/**/build/
 .env
 gradle.properties
+affable-case-376500-d0fc60c7f7f2.json
 
 ### STS ###
 .apt_generated
