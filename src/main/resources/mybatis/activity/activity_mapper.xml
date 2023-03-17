@@ -57,7 +57,7 @@
 				TOTAL_ACT_DISTANCE,
 				TOTAL_ACT_TIME,
 				SHARE_ST,
-				DATE_FORMAT(REG_DT, "%Y-%m-%d")
+				DATE_FORMAT(REG_DT, "%Y-%m-%d") AS REG_DT
 			FROM ACTIVITY_TB
 			WHERE USER_NO = #{user_no};
 		]]>
