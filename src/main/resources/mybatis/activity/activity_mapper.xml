@@ -40,7 +40,7 @@
 				)
 			VALUES
 		]]>
-		<foreach item="degree" collection="customList" separator=",">
+		<foreach item="degree" collection="distances" separator=",">
 			(
 			 	#{act_no},
 			 	#{degree.latitude},

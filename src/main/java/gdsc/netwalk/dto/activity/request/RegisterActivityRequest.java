@@ -15,5 +15,5 @@ public class RegisterActivityRequest {
     private double total_act_distance;
     private double total_act_time;
     private int share_st;
-    private CustomList<CustomMap> customList;
+    private CustomList<CustomMap> distances;
 }
