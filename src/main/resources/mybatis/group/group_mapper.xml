@@ -4,7 +4,8 @@
 
 <mapper namespace="gdsc.netwalk.mapper.group.GroupMapper">
 
-    <insert id="registerGroup" parameterType="gdsc.netwalk.common.vo.CustomMap">
+    <insert id="registerGroup" parameterType="gdsc.netwalk.common.vo.CustomMap"
+			useGeneratedKeys="true" keyProperty="group_no" keyColumn="group_no">
 		<![CDATA[
 			INSERT INTO GROUP_TB
 				(
@@ -37,13 +38,13 @@
 				GT.NAME AS name,
 				GT.GROUP_NO AS group_no,
 				GT.CREATE_USER_NO AS create_user_no,
-				GT.CAPACITY AS capactiy,
+				GT.CAPACITY AS capacity,
 				GT.PARTICIPANT AS participant,
 				GT.CATEGORY AS category,
 				DATE_FORMAT(GT.REG_DT, '%Y-%m-%d') AS reg_dt,
 				DATE_FORMAT(GT.MOD_DT, '%Y-%m-%d') AS mod_dt,
-				UGT.ACT_ST,
-				UGT.DEL_ST
+				UGT.ACT_ST AS act_st,
+				UGT.DEL_ST AS del_st
 			FROM
 				GROUP_TB GT
 			INNER JOIN USER_GROUP_TB UGT

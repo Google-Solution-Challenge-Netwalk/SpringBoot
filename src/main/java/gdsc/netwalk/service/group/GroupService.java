@@ -30,8 +30,12 @@ public class GroupService {
             // [1-1] param 생성(POJO object to Map)
             ObjectMapper mapper = new ObjectMapper();
             CustomMap param = mapper.convertValue(request, new TypeReference<CustomMap>() {});
-            // [1-2] DB 그룹 정보 등록
+            // [1-2] 그룹 정보 등록
             groupMapper.registerGroup(param);
+
+            // [2] 그룹 생성자 그룹 참여 정보 등록
+            param.set("user_no", param.getInt("create_user_no"));
+            groupMapper.participateGroup(param);
 
             response.setStatus("SUCCESS");
             response.setMessage("그룹 등록 성공");
@@ -52,10 +56,10 @@ public class GroupService {
         CustomResponse response = new CustomResponse();
 
         try {
+            // 로그인한 유저와 요청한 유저의 일치 여부 검사
             if((int) request.getSession().getAttribute("loginUser")  == createUserNo) {
                 // [1] 생성 그룹 조회
                 CustomList<CustomMap> list = groupMapper.selectGroupListByCreateUserNo(createUserNo);
-                // [1-1] 로그인한 유저와 요청한 유저의 일치 여부 검사
 
                 response.setObject(list);
                 response.setStatus("SUCCESS");
