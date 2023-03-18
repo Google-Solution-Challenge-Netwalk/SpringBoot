@@ -8,6 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ActivityMapper {
     void registerActivity(CustomMap param);
     void registerActivityDistance(CustomMap param);
-    CustomMap selectActivityByUser(CustomMap param);
-    CustomList<CustomMap> selectActivityDistanceByUser(CustomMap param);
+    CustomList<CustomMap> selectActivityByUser(CustomMap param);
+    CustomList<CustomMap> selectActivityDistanceByUser(int act_no);
 }

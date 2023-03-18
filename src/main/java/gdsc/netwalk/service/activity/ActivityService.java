@@ -57,14 +57,15 @@ public class ActivityService {
             CustomMap param = mapper.convertValue(request, new TypeReference<CustomMap>() {});
 
             // [1] 활동 상세 내역 조회
-            CustomMap activity = activityMapper.selectActivityByUser(param);
+            CustomList<CustomMap> activities = activityMapper.selectActivityByUser(param);
 
-            // [2] 활동 거리 내역 조회
-            CustomList<CustomMap> distances = activityMapper.selectActivityDistanceByUser(param);
-            CustomMap result = activity;
-            result.set("distances", distances);
+            for(CustomMap activity : activities) {
+                // [2] 활동 거리 내역 조회
+                CustomList<CustomMap> distances = activityMapper.selectActivityDistanceByUser(activity.getInt("ACT_NO"));
+                activity.set("distances", distances);
+            }
 
-            response.setObject(result);
+            response.setObject(activities);
             response.setStatus("SUCCESS");
             response.setMessage("활동 내역 조회 성공");
 
