@@ -132,16 +132,19 @@
 
 	<select id="selectGroupInUsers" parameterType="int" resultType="gdsc.netwalk.common.vo.CustomMap">
 		<![CDATA[
-			-- 플로깅 기록과 관련된 내용도 추가해야함.
 			SELECT
+				ATB.USER_NO AS user_no,
 				UT.NAME AS name,
-				UT.EMAIL AS email
-			FROM
-				USER_GROUP_TB UGT
-			INNER JOIN USER_TB UT
-			ON UT.USER_NO = UGT.USER_NO
-			WHERE
-				UGT.GROUP_NO = #{groupNo};
+				UT.EMAIL AS email,
+				SUM(ATB.TOTAL_ACT_DISTANCE) AS total_act_distance,
+				SUM(ATB.TOTAL_ACT_TIME) AS total_act_time
+			FROM ACTIVITY_TB ATB
+					 INNER JOIN USER_TB UT
+								ON ATB.USER_NO = UT.USER_NO
+					 INNER JOIN GROUP_TB GT
+								ON ATB.GROUP_NO = GT.GROUP_NO
+			WHERE GT.GROUP_NO = #{groupNo}
+			GROUP BY ATB.USER_NO
 		]]>
 	</select>
 </mapper>
