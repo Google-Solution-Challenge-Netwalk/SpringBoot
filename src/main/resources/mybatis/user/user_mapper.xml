@@ -27,8 +27,8 @@
     <select id="selectUserByEmail" parameterType="String" resultType="gdsc.netwalk.domain.user.User">
 		<![CDATA[
 			SELECT
-				USER_NO,
-				EMAIL
+				USER_NO AS user_no,
+				EMAIL AS email
 			FROM
 				USER_TB
 			WHERE

@@ -61,7 +61,7 @@ public class ActivityService {
 
             for(CustomMap activity : activities) {
                 // [2] 활동 거리 내역 조회
-                CustomList<CustomMap> distances = activityMapper.selectActivityDistanceByUser(activity.getInt("ACT_NO"));
+                CustomList<CustomMap> distances = activityMapper.selectActivityDistanceByUser(activity.getInt("act_no"));
                 activity.set("distances", distances);
             }
 

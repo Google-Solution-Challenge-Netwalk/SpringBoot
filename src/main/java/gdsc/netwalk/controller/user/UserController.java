@@ -29,7 +29,6 @@ public class UserController {
         if(response.getStatus().equals("SUCCESS")) {
             HttpSession session = request.getSession();
             session.setAttribute("loginUser", response.getUser_no());
-            System.out.println(session.getAttribute("loginUser"));
         }
         return new ResponseEntity<LoginResponse>(response, HttpStatus.OK);
     }

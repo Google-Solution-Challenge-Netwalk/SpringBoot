@@ -53,12 +53,12 @@
 	<select id="selectActivityByUser" parameterType="gdsc.netwalk.common.vo.CustomMap" resultType="gdsc.netwalk.common.vo.CustomMap">
 		<![CDATA[
 			SELECT
-				ACT_NO,
-				GROUP_NO,
-				TOTAL_ACT_DISTANCE,
-				TOTAL_ACT_TIME,
-				SHARE_ST,
-				DATE_FORMAT(REG_DT, "%Y-%m-%d") AS REG_DT
+				ACT_NO AS act_no,
+				GROUP_NO AS group_no,
+				TOTAL_ACT_DISTANCE AS total_act_distance,
+				TOTAL_ACT_TIME AS total_act_time,
+				SHARE_ST AS share_st,
+				DATE_FORMAT(REG_DT, "%Y-%m-%d") AS reg_dt
 			FROM ACTIVITY_TB
 			WHERE USER_NO = #{user_no};
 		]]>
@@ -67,10 +67,10 @@
 	<select id="selectActivityDistanceByUser" parameterType="int" resultType="gdsc.netwalk.common.vo.CustomMap">
 		<![CDATA[
 			SELECT
-				LATITUDE,
-				LONGITUDE
+				LATITUDE AS latitude,
+				LONGITUDE AS longitude
 			FROM ACTIVITY_DISTANCE_TB
-			WHERE ACT_NO = #{ACT_NO};
+			WHERE ACT_NO = #{act_no};
 		]]>
 	</select>
 </mapper>
