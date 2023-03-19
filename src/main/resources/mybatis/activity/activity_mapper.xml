@@ -73,4 +73,30 @@
 			WHERE ACT_NO = #{act_no};
 		]]>
 	</select>
+
+	<select id="selectRankingActivity" parameterType="int" resultType="gdsc.netwalk.common.vo.CustomMap">
+		<![CDATA[
+			SELECT
+				ATB.USER_NO AS user_no,
+				UT.NAME AS name,
+				UT.EMAIL AS email,
+		]]>
+		<choose>
+			<when test="'distance'.equals(type)">
+				SUM(ATB.TOTAL_ACT_DISTANCE) AS total_act_distance,
+				RANK() OVER (ORDER BY SUM(ATB.TOTAL_ACT_DISTANCE) DESC) AS RANKING
+			</when>
+			<when test="'time'.equals(type)">
+				SUM(ATB.TOTAL_ACT_TIME) AS total_act_time,
+				RANK() OVER (ORDER BY SUM(ATB.TOTAL_ACT_TIME) DESC) AS RANKING
+			</when>
+		</choose>
+		<![CDATA[
+			FROM ACTIVITY_TB ATB
+			INNER JOIN USER_TB UT
+			ON ATB.USER_NO = UT.USER_NO
+			GROUP BY ATB.USER_NO
+			ORDER BY RANKING ASC;
+		]]>
+	</select>
 </mapper>

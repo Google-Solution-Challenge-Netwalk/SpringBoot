@@ -10,6 +10,7 @@ import gdsc.netwalk.dto.common.CustomResponse;
 import gdsc.netwalk.mapper.activity.ActivityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ActivityService {
@@ -19,6 +20,7 @@ public class ActivityService {
     /*
     * 활동 내역 등록
     * */
+    @Transactional
     public CustomResponse registerActivity(RegisterActivityRequest request) {
         CustomResponse response = new CustomResponse();
         try {
@@ -73,6 +75,28 @@ public class ActivityService {
         } catch (Exception e) {
             response.setStatus("FAIL");
             response.setMessage("활동 내역 조회 실패");
+
+            System.out.println("exception: " + e);
+        }
+        return response;
+    }
+
+    /*
+     * 플로깅 랭킹 정보 조회
+     * */
+    public CustomResponse selectRankingActivity(String type) {
+        CustomResponse response = new CustomResponse();
+        try {
+            // [1] 플로깅 랭킹 정보 조회
+            CustomList<CustomMap> activities = activityMapper.selectRankingActivity(type);
+
+            response.setObject(activities);
+            response.setStatus("SUCCESS");
+            response.setMessage("플로깅 랭킹 정보 조회 성공");
+
+        } catch (Exception e) {
+            response.setStatus("FAIL");
+            response.setMessage("플로깅 랭킹 정보 조회 실패");
 
             System.out.println("exception: " + e);
         }

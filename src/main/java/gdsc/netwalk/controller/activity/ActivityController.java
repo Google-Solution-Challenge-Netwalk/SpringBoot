@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/api/v1/act")
@@ -31,6 +28,13 @@ public class ActivityController {
     @PostMapping("/user")
     public ResponseEntity<CustomResponse> selectActivityByUser(@RequestBody ActivityListRequest activityListRequest) {
         CustomResponse response = activityService.selectActivityByUser(activityListRequest);
+        return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @GetMapping("/rank/{type}")
+    public ResponseEntity<CustomResponse> selectRankingActivity(@PathVariable("type") String type) {
+        CustomResponse response = activityService.selectRankingActivity(type);
         return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
     }
 }

@@ -11,6 +11,7 @@ import gdsc.netwalk.dto.group.request.RegisterGroupRequest;
 import gdsc.netwalk.mapper.group.GroupMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,6 +23,7 @@ public class GroupService {
     /*
     * 그룹 등록
     * */
+    @Transactional
     public CustomResponse registerGroup(RegisterGroupRequest request) {
         CustomResponse response = new CustomResponse();
 
@@ -104,6 +106,7 @@ public class GroupService {
     /*
      * 그룹 참여 정보 등록
      * */
+    @Transactional
     public CustomResponse registerParticipateGroup(ParticipateGroupRequest request) {
         CustomResponse response = new CustomResponse();
 

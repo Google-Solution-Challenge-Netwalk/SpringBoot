@@ -9,12 +9,14 @@ import gdsc.netwalk.dto.user.response.LoginResponse;
 import gdsc.netwalk.mapper.user.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
     @Autowired
     UserMapper userMapper;
 
+    @Transactional
     public LoginResponse login(LoginRequest request) {
          LoginResponse response = new LoginResponse();
 
