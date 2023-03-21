@@ -123,8 +123,16 @@
 				DATE_FORMAT(MOD_DT, '%Y-%m-%d') AS mod_dt
 			FROM
 				GROUP_TB
-			WHERE
-				CATEGORY = #{category}
+			]]>
+			<choose>
+				<when test="category !=null and !category.equals('')">
+					<![CDATA[
+						WHERE
+							CATEGORY = #{category}
+					]]>
+				</when>
+			</choose>
+		<![CDATA[
 			ORDER BY
 				REG_DT DESC;
 		]]>

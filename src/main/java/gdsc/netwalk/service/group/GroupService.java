@@ -146,6 +146,11 @@ public class GroupService {
             // [1] 카테고리별 그룹 조회
             ObjectMapper mapper = new ObjectMapper();
             CustomMap param = mapper.convertValue(request, new TypeReference<CustomMap>() {});
+            if("".equals(param.getString("category")) || param.getString("category") == null) {
+                param.set("category", "");
+            }
+            System.out.println(param);
+
             CustomList<CustomMap> list =  groupMapper.selectCategoryGroup(param);
             response.setObject(list);
             response.setStatus("SUCCESS");
