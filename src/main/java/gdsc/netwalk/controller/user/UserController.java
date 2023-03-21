@@ -1,5 +1,6 @@
 package gdsc.netwalk.controller.user;
 
+import gdsc.netwalk.dto.common.CustomResponse;
 import gdsc.netwalk.dto.user.request.LoginRequest;
 import gdsc.netwalk.dto.user.response.LoginResponse;
 import gdsc.netwalk.service.user.UserService;
@@ -7,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -31,5 +29,12 @@ public class UserController {
             session.setAttribute("loginUser", response.getUser_no());
         }
         return new ResponseEntity<LoginResponse>(response, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @GetMapping("/me/{user_no}")
+    public ResponseEntity<CustomResponse> selectUserProfile(@PathVariable("user_no") int user_no) {
+        CustomResponse response = userService.selectUserProfile(user_no);
+        return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
     }
 }

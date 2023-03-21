@@ -8,4 +8,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper {
     void registerUser(CustomMap param);
     User selectUserByEmail(String email);
+    CustomMap selectUserProfile(int user_no);
 }

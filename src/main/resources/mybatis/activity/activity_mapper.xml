@@ -11,8 +11,6 @@
 				(
 					USER_NO,
 					GROUP_NO,
-					TOTAL_ACT_DISTANCE,
-					TOTAL_ACT_TIME,
 					SHARE_ST,
 					REG_DT,
 					MOD_DT
@@ -21,14 +19,19 @@
 				(
 					#{user_no},
 					#{group_no},
-					#{total_act_distance},
-					#{total_act_time},
 					#{share_st},
 					NOW(),
 					NOW()
 				);
 		]]>
 	</insert>
+
+	<update id="updateActivity" parameterType="int">
+		UPDATE ACTIVITY_TB SET
+		    TOTAL_ACT_DISTANCE = #{total_act_distance},
+			TOTAL_ACT_TIME = #{total_act_time}
+		WHERE ACT_NO = #{act_no}
+	</update>
 
 	<insert id="registerActivityDistance" parameterType="gdsc.netwalk.common.vo.CustomMap">
 		<![CDATA[

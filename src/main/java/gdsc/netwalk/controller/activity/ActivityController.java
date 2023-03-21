@@ -2,6 +2,7 @@ package gdsc.netwalk.controller.activity;
 
 import gdsc.netwalk.dto.activity.request.ActivityListRequest;
 import gdsc.netwalk.dto.activity.request.RegisterActivityRequest;
+import gdsc.netwalk.dto.activity.request.UpdateActivityRequest;
 import gdsc.netwalk.dto.common.CustomResponse;
 import gdsc.netwalk.service.activity.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,13 @@ public class ActivityController {
     @PostMapping
     public ResponseEntity<CustomResponse> registerActivity(@RequestBody RegisterActivityRequest registerActivityRequest) {
         CustomResponse response = activityService.registerActivity(registerActivityRequest);
+        return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @PostMapping("/update")
+    public ResponseEntity<CustomResponse> updateActivity(@RequestBody UpdateActivityRequest updateActivityRequest) {
+        CustomResponse response = activityService.updateActivity(updateActivityRequest);
         return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
     }
 

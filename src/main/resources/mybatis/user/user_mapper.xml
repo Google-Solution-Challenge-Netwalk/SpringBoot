@@ -35,4 +35,32 @@
 				EMAIL = #{email};
         ]]>
 	</select>
+
+	<select id="selectUserProfile" parameterType="int" resultType="gdsc.netwalk.common.vo.CustomMap">
+		<![CDATA[
+			SELECT
+				UT.USER_NO AS user_no,
+				UT.NAME AS name,
+				UT.EMAIL AS email,
+				UT.IMG_URL AS img_url,
+				COUNT(*) AS act_cnt,
+				SUM(TOTAL_ACT_DISTANCE) AS total_act_distance,
+				SUM(TOTAL_ACT_TIME) AS total_act_time,
+				(
+					SELECT
+						COUNT(*)
+					FROM ACTIVITY_TRASH_TB ATT
+					WHERE ATT.ACT_NO IN (
+						SELECT ACT_NO
+						FROM ACTIVITY_TB AT2
+						WHERE AT2.USER_NO = #{user_no}
+					)
+			) AS TOTAL_ACT_TRASH
+			FROM USER_TB UT
+			INNER JOIN ACTIVITY_TB ATB
+			ON UT.USER_NO = ATB.USER_NO
+			GROUP BY ATB.USER_NO
+			HAVING ATB.USER_NO = #{user_no}
+		]]>
+	</select>
 </mapper>

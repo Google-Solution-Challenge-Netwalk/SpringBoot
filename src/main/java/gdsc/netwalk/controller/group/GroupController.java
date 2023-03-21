@@ -22,7 +22,7 @@ public class GroupController {
 
     @ResponseBody
     @PostMapping
-    public ResponseEntity<CustomResponse> registerGroup(HttpServletRequest request, @RequestBody RegisterGroupRequest registerGroupRequest) {
+    public ResponseEntity<CustomResponse> registerGroup(@RequestBody RegisterGroupRequest registerGroupRequest) {
         CustomResponse response = groupService.registerGroup(registerGroupRequest);
         return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
     }

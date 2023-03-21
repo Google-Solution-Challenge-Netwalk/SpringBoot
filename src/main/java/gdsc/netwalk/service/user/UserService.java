@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gdsc.netwalk.common.vo.CustomMap;
 import gdsc.netwalk.domain.user.User;
+import gdsc.netwalk.dto.common.CustomResponse;
 import gdsc.netwalk.dto.user.request.LoginRequest;
 import gdsc.netwalk.dto.user.response.LoginResponse;
 import gdsc.netwalk.mapper.user.UserMapper;
@@ -16,6 +17,9 @@ public class UserService {
     @Autowired
     UserMapper userMapper;
 
+    /*
+    * 로그인
+    * */
     @Transactional
     public LoginResponse login(LoginRequest request) {
          LoginResponse response = new LoginResponse();
@@ -48,6 +52,29 @@ public class UserService {
         } catch (Exception e) {
             response.setStatus("FAIL");
             response.setMessage("로그인 실패");
+
+            System.out.println("exception: " + e);
+        }
+        return response;
+    }
+
+    /*
+    * 회원 프로필 조회
+    * */
+    @Transactional
+    public CustomResponse selectUserProfile(int user_no) {
+        LoginResponse response = new LoginResponse();
+
+        try {
+            // [1] 회원정보 조회
+            CustomMap result = userMapper.selectUserProfile(user_no);
+            response.setObject(result);
+            response.setStatus("SUCCESS");
+            response.setMessage("회원 프로필 조회 성공");
+
+        } catch (Exception e) {
+            response.setStatus("FAIL");
+            response.setMessage("회원 프로필 조회 실패");
 
             System.out.println("exception: " + e);
         }
