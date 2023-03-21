@@ -8,6 +8,8 @@ import gdsc.netwalk.dto.activity.request.ActivityListRequest;
 import gdsc.netwalk.dto.activity.request.RegisterActivityRequest;
 import gdsc.netwalk.dto.activity.request.UpdateActivityRequest;
 import gdsc.netwalk.dto.common.CustomResponse;
+import gdsc.netwalk.dto.activity.request.UpdateAcitivtyShareSTRequest;
+import gdsc.netwalk.dto.user.response.LoginResponse;
 import gdsc.netwalk.mapper.activity.ActivityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -122,6 +124,59 @@ public class ActivityService {
         } catch (Exception e) {
             response.setStatus("FAIL");
             response.setMessage("플로깅 랭킹 정보 조회 실패");
+
+            System.out.println("exception: " + e);
+        }
+        return response;
+    }
+
+    /*
+     * 모든 사용자의 활동 기록 조회
+     * */
+    public CustomResponse selectAllActivity() {
+        CustomResponse response = new CustomResponse();
+        try {
+            // [1] 모든 사용자의 활동 기록 조회
+            CustomList<CustomMap> activities = activityMapper.selectAllActivity();
+
+            for(CustomMap activity : activities) {
+                // [2] 활동 거리 내역 조회
+                CustomList<CustomMap> distances = activityMapper.selectActivityDistanceByUser(activity.getInt("act_no"));
+                activity.set("distances", distances);
+            }
+
+            response.setObject(activities);
+            response.setStatus("SUCCESS");
+            response.setMessage("모든 사용자의 활동 기록 조회 성공");
+
+        } catch (Exception e) {
+            response.setStatus("FAIL");
+            response.setMessage("모든 사용자의 활동 기록 조회 실패");
+
+            System.out.println("exception: " + e);
+        }
+        return response;
+    }
+
+    /*
+     * 회원 플로깅 활동 정보 공유 상태 업데이트
+     * */
+    @Transactional
+    public CustomResponse updateAcitivtyShareST(UpdateAcitivtyShareSTRequest request) {
+        LoginResponse response = new LoginResponse();
+
+        try {
+            // [1] 회원정보 조회
+            ObjectMapper mapper = new ObjectMapper();
+            CustomMap param = mapper.convertValue(request, new TypeReference<CustomMap>() {});
+            activityMapper.updateAcitivtyShareST(param);
+
+            response.setStatus("SUCCESS");
+            response.setMessage("회원 플로깅 활동 정보 공유 상태 업데이트 성공");
+
+        } catch (Exception e) {
+            response.setStatus("FAIL");
+            response.setMessage("회원 플로깅 활동 정보 공유 상태 업데이트 실패");
 
             System.out.println("exception: " + e);
         }

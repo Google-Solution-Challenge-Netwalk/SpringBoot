@@ -53,6 +53,26 @@
 
 	</insert>
 
+	<select id="selectAllActivity" resultType="gdsc.netwalk.common.vo.CustomMap">
+		<![CDATA[
+			SELECT
+				UT.USER_NO AS user_no,
+				UT.NAME AS name,
+				UT.EMAIL AS email,
+				UT.IMG_URL AS img_url,
+				ATB.ACT_NO AS act_no,
+				ATB.GROUP_NO AS group_no,
+				ATB.TOTAL_ACT_DISTANCE AS total_act_distance,
+				ATB.TOTAL_ACT_TIME AS total_act_time,
+				ATB.SHARE_ST AS share_st,
+				DATE_FORMAT(ATB.REG_DT, "%Y-%m-%d") AS reg_dt
+			FROM ACTIVITY_TB ATB
+			INNER JOIN USER_TB UT
+			ON ATB.USER_NO = UT.USER_NO
+			WHERE ATB.SHARE_ST = 1
+		]]>
+	</select>
+
 	<select id="selectActivityByUser" parameterType="gdsc.netwalk.common.vo.CustomMap" resultType="gdsc.netwalk.common.vo.CustomMap">
 		<![CDATA[
 			SELECT
@@ -102,4 +122,10 @@
 			ORDER BY RANKING ASC;
 		]]>
 	</select>
+
+	<update id="updateAcitivtyShareST" parameterType="gdsc.netwalk.common.vo.CustomMap">
+		UPDATE ACTIVITY_TB SET
+		   SHARE_ST = #{share_st}
+		WHERE ACT_NO = #{act_no}
+	</update>
 </mapper>

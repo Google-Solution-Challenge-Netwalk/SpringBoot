@@ -12,4 +12,6 @@ public interface ActivityMapper {
     CustomList<CustomMap> selectActivityDistanceByUser(int act_no);
     CustomList<CustomMap> selectRankingActivity(String type);
     void updateActivity(CustomMap param);
+    CustomList<CustomMap> selectAllActivity();
+    void updateAcitivtyShareST(CustomMap param);
 }

@@ -2,6 +2,7 @@ package gdsc.netwalk.controller.activity;
 
 import gdsc.netwalk.dto.activity.request.ActivityListRequest;
 import gdsc.netwalk.dto.activity.request.RegisterActivityRequest;
+import gdsc.netwalk.dto.activity.request.UpdateAcitivtyShareSTRequest;
 import gdsc.netwalk.dto.activity.request.UpdateActivityRequest;
 import gdsc.netwalk.dto.common.CustomResponse;
 import gdsc.netwalk.service.activity.ActivityService;
@@ -26,6 +27,13 @@ public class ActivityController {
     }
 
     @ResponseBody
+    @GetMapping
+    public ResponseEntity<CustomResponse> selectAllActivity() {
+        CustomResponse response = activityService.selectAllActivity();
+        return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
+    }
+
+    @ResponseBody
     @PostMapping("/update")
     public ResponseEntity<CustomResponse> updateActivity(@RequestBody UpdateActivityRequest updateActivityRequest) {
         CustomResponse response = activityService.updateActivity(updateActivityRequest);
@@ -43,6 +51,13 @@ public class ActivityController {
     @GetMapping("/rank/{type}")
     public ResponseEntity<CustomResponse> selectRankingActivity(@PathVariable("type") String type) {
         CustomResponse response = activityService.selectRankingActivity(type);
+        return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @PostMapping("shareSt/update")
+    public ResponseEntity<CustomResponse> updateAcitivtyShareST(@RequestBody UpdateAcitivtyShareSTRequest updateAcitivtyShareSTRequest) {
+        CustomResponse response = activityService.updateAcitivtyShareST(updateAcitivtyShareSTRequest);
         return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
     }
 }
