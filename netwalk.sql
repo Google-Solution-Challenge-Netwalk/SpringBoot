@@ -46,6 +46,7 @@ CREATE TABLE `user_group_tb` (
 -- netwalk.activity_tb definition
 
 -- netwalk.activity_tb definition
+-- netwalk.activity_tb definition
 
 CREATE TABLE `activity_tb` (
    `ACT_NO` int NOT NULL AUTO_INCREMENT COMMENT '활동내역번호',
@@ -53,7 +54,7 @@ CREATE TABLE `activity_tb` (
    `GROUP_NO` int DEFAULT NULL COMMENT '그룹번호',
    `TOTAL_ACT_DISTANCE` double DEFAULT NULL COMMENT '총이동거리',
    `TOTAL_ACT_TIME` double DEFAULT NULL COMMENT '총활동시간',
-   `SHARE_ST` int NOT NULL COMMENT '공유여부',
+   `SHARE_ST` int DEFAULT NULL COMMENT '공유여부',
    `REG_DT` datetime NOT NULL COMMENT '등록일자',
    `MOD_DT` datetime NOT NULL COMMENT '수정일자',
    PRIMARY KEY (`ACT_NO`),
@@ -61,8 +62,7 @@ CREATE TABLE `activity_tb` (
    KEY `ACTIVITY_TB_FK_1` (`GROUP_NO`),
    CONSTRAINT `ACTIVITY_TB_FK` FOREIGN KEY (`USER_NO`) REFERENCES `user_tb` (`USER_NO`) ON DELETE CASCADE ON UPDATE CASCADE,
    CONSTRAINT `ACTIVITY_TB_FK_1` FOREIGN KEY (`GROUP_NO`) REFERENCES `group_tb` (`GROUP_NO`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='활동내역';
-
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='활동내역';
 -- netwalk.activity_distance_tb definition
 
 CREATE TABLE `activity_distance_tb` (

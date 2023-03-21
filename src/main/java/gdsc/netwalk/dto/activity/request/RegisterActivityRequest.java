@@ -10,5 +10,4 @@ import lombok.*;
 public class RegisterActivityRequest {
     private int user_no;
     private int group_no;
-    private int share_st;
 }

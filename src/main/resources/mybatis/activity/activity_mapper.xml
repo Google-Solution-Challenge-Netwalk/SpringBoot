@@ -11,7 +11,6 @@
 				(
 					USER_NO,
 					GROUP_NO,
-					SHARE_ST,
 					REG_DT,
 					MOD_DT
 				)
@@ -19,7 +18,6 @@
 				(
 					#{user_no},
 					#{group_no},
-					#{share_st},
 					NOW(),
 					NOW()
 				);
@@ -29,7 +27,8 @@
 	<update id="updateActivity" parameterType="gdsc.netwalk.common.vo.CustomMap">
 		UPDATE ACTIVITY_TB SET
 		    TOTAL_ACT_DISTANCE = #{total_act_distance},
-			TOTAL_ACT_TIME = #{total_act_time}
+			TOTAL_ACT_TIME = #{total_act_time},
+			SHARE_ST = #{share_st}
 		WHERE ACT_NO = #{act_no}
 	</update>
 
