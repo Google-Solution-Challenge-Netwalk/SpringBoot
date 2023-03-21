@@ -62,6 +62,7 @@ public class ActivityService {
             // [1] 활동 상세 내역 등록
             activityMapper.updateActivity(param);
 
+            System.out.println(param);
             // [2] 활동 이동 경로 등록
             activityMapper.registerActivityDistance(param);
 

@@ -12,7 +12,7 @@ import lombok.*;
 
 public class UpdateActivityRequest {
 
-    private int act_nol;
+    private int act_no;
     private double total_act_distance;
     private double total_act_time;
     private CustomList<CustomMap> distances;

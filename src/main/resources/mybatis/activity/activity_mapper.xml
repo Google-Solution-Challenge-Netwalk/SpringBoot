@@ -26,7 +26,7 @@
 		]]>
 	</insert>
 
-	<update id="updateActivity" parameterType="int">
+	<update id="updateActivity" parameterType="gdsc.netwalk.common.vo.CustomMap">
 		UPDATE ACTIVITY_TB SET
 		    TOTAL_ACT_DISTANCE = #{total_act_distance},
 			TOTAL_ACT_TIME = #{total_act_time}
