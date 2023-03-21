@@ -128,4 +128,17 @@
 		   SHARE_ST = #{share_st}
 		WHERE ACT_NO = #{act_no}
 	</update>
+
+	<select id="selectTrashByActivity" parameterType="int" resultType="gdsc.netwalk.common.vo.CustomMap">
+		<![CDATA[
+			SELECT
+				TRASH_NO AS trash_no,
+				CATEGORY AS category,
+				IMG_URL AS img_url,
+				DATE_FORMAT(REG_DT, "%Y-%m-%d") AS reg_dt
+			FROM ACTIVITY_TRASH_TB
+			WHERE ACT_NO = #{act_no}
+		]]>
+	</select>
+
 </mapper>

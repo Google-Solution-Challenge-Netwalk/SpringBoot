@@ -182,4 +182,28 @@ public class ActivityService {
         }
         return response;
     }
+
+    /*
+     * 플로깅 중 수집 쓰레기 목록 조회
+     * */
+    @Transactional
+    public CustomResponse selectTrashByActivity(int act_no) {
+        LoginResponse response = new LoginResponse();
+
+        try {
+            // [1] 플로깅 중 수집 쓰레기 목록 조회
+            CustomList<CustomMap> trashes = activityMapper.selectTrashByActivity(act_no);
+
+            response.setObject(trashes);
+            response.setStatus("SUCCESS");
+            response.setMessage("플로깅 중 수집 쓰레기 목록 조회 성공");
+
+        } catch (Exception e) {
+            response.setStatus("FAIL");
+            response.setMessage("플로깅 중 수집 쓰레기 목록 조회 실패");
+
+            System.out.println("exception: " + e);
+        }
+        return response;
+    }
 }

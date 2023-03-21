@@ -14,4 +14,5 @@ public interface ActivityMapper {
     void updateActivity(CustomMap param);
     CustomList<CustomMap> selectAllActivity();
     void updateAcitivtyShareST(CustomMap param);
+    CustomList<CustomMap> selectTrashByActivity(int act_no);
 }

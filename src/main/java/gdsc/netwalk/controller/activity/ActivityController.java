@@ -60,4 +60,11 @@ public class ActivityController {
         CustomResponse response = activityService.updateAcitivtyShareST(updateAcitivtyShareSTRequest);
         return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
     }
+
+    @ResponseBody
+    @PostMapping("/trash/{act_no}")
+    public ResponseEntity<CustomResponse> selectTrashByActivity(@PathVariable("act_no") int act_no) {
+        CustomResponse response = activityService.selectTrashByActivity(act_no);
+        return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
+    }
 }
