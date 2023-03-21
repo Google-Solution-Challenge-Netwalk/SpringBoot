@@ -55,7 +55,7 @@
 						FROM ACTIVITY_TB AT2
 						WHERE AT2.USER_NO = #{user_no}
 					)
-			) AS TOTAL_ACT_TRASH
+			) AS total_act_trash
 			FROM USER_TB UT
 			INNER JOIN ACTIVITY_TB ATB
 			ON UT.USER_NO = ATB.USER_NO

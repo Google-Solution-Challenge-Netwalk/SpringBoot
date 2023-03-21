@@ -107,11 +107,11 @@
 		<choose>
 			<when test="'distance'.equals(type)">
 				SUM(ATB.TOTAL_ACT_DISTANCE) AS total_act_distance,
-				RANK() OVER (ORDER BY SUM(ATB.TOTAL_ACT_DISTANCE) DESC) AS RANKING
+				RANK() OVER (ORDER BY SUM(ATB.TOTAL_ACT_DISTANCE) DESC) AS ranking
 			</when>
 			<when test="'time'.equals(type)">
 				SUM(ATB.TOTAL_ACT_TIME) AS total_act_time,
-				RANK() OVER (ORDER BY SUM(ATB.TOTAL_ACT_TIME) DESC) AS RANKING
+				RANK() OVER (ORDER BY SUM(ATB.TOTAL_ACT_TIME) DESC) AS ranking
 			</when>
 		</choose>
 		<![CDATA[
