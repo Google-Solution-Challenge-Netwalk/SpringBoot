@@ -37,6 +37,7 @@ public class ActivityService {
             // [1] 활동 상세 내역 등록
             activityMapper.registerActivity(param);
 
+            response.setObject(param.getInt("act_no"));
             response.setStatus("SUCCESS");
             response.setMessage("활동 내역 등록 성공");
 
