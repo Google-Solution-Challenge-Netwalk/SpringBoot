@@ -146,13 +146,11 @@
 				UT.EMAIL AS email,
 				SUM(ATB.TOTAL_ACT_DISTANCE) AS total_act_distance,
 				SUM(ATB.TOTAL_ACT_TIME) AS total_act_time
-			FROM ACTIVITY_TB ATB
-			INNER JOIN USER_TB UT
-				ON ATB.USER_NO = UT.USER_NO
-			INNER JOIN GROUP_TB GT
-				ON ATB.GROUP_NO = GT.GROUP_NO
-			WHERE GT.GROUP_NO = #{groupNo}
-			GROUP BY ATB.USER_NO
+			FROM USER_GROUP_TB UGT
+					 inner join USER_TB UT ON UGT.USER_NO = UT.USER_NO
+					 inner join ACTIVITY_TB ATB on ATB.USER_NO = UT.USER_NO
+			WHERE UGT.GROUP_NO = #{group_no}
+			GROUP BY UGT.USER_NO
 		]]>
 	</select>
 </mapper>
