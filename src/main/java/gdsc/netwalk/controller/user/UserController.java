@@ -19,6 +19,7 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
     @ResponseBody
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(HttpServletRequest request, @RequestBody LoginRequest loginRequest) {

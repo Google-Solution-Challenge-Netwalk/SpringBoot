@@ -36,6 +36,7 @@ jib {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation group: 'net.bytebuddy', name: 'byte-buddy', version: '1.8.10'
 
 	// jdbc + mybatis
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
@@ -52,6 +53,7 @@ dependencies {
 	// gcp
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter', version: '1.2.5.RELEASE'
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-storage', version: '1.2.5.RELEASE'
+	implementation group: 'commons-io', name: 'commons-io', version: '2.6'
 
 	// swaager
 	implementation 'org.springdoc:springdoc-openapi-ui:1.4.1'

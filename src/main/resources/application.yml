@@ -38,6 +38,8 @@ spring:
     gcp:
       credentials:
         location: ${gcp-secret-key}
+      project-id: "affable-case-376500"
+      bucket-id: "netwalk-bucket"
 
 springdoc:
   version: 1.0

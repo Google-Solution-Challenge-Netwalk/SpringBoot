@@ -67,4 +67,5 @@ public class ActivityController {
         CustomResponse response = activityService.selectTrashByActivity(act_no);
         return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
     }
+
 }
