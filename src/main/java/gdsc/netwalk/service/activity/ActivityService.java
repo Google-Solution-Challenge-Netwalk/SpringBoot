@@ -27,17 +27,26 @@ public class ActivityService {
     public CustomResponse registerActivity(RegisterActivityRequest request) {
         CustomResponse response = new CustomResponse();
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            CustomMap param = mapper.convertValue(request, new TypeReference<CustomMap>() {});
-
-            // 혼자하는 플로깅 활동 기록을 등록할 때
-            if(param.getInt("group_no") == 0) {
-                param.set("group_no", null);
-            }
+            CustomMap param = new CustomMap();
             // [1] 활동 상세 내역 등록
-            activityMapper.registerActivity(param);
+            param.set("user_no", request.getUser_no());
+            param.set("act_st", request.getAct_st());
 
-            response.setObject(param.getInt("act_no"));
+            CustomList<Integer> act_no_list = new CustomList<Integer>();
+
+            if(request.getGroups() != null) {
+                for(int group_no : request.getGroups()) {
+                    param.set("group_no", group_no);
+                    activityMapper.registerActivity(param);
+                    act_no_list.add(param.getInt("act_no"));
+                }
+            }
+            else {
+                activityMapper.registerActivity(param);
+                act_no_list.add(param.getInt("act_no"));
+            }
+
+            response.setObject(act_no_list);
             response.setStatus("SUCCESS");
             response.setMessage("활동 내역 등록 성공");
 
@@ -63,9 +72,11 @@ public class ActivityService {
             // [1] 활동 상세 내역 등록
             activityMapper.updateActivity(param);
 
-            System.out.println(param);
             // [2] 활동 이동 경로 등록
-            activityMapper.registerActivityDistance(param);
+            for(int act_no : request.getActivities()) {
+                param.set("act_no", act_no);
+                activityMapper.registerActivityDistance(param);
+            }
 
             response.setStatus("SUCCESS");
             response.setMessage("활동 내역 수정 성공");

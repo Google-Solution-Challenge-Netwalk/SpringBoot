@@ -9,4 +9,5 @@ import lombok.*;
 @AllArgsConstructor
 public class CategoryGroupListRequest {
     private String category;
+    private String act_st;
 }

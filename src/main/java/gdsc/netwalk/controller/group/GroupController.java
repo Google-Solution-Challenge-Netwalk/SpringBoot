@@ -53,6 +53,7 @@ public class GroupController {
         return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
     }
 
+    @ResponseBody
     @GetMapping("/{groupNo}")
     public ResponseEntity<CustomResponse> selectGroupInUsers(@PathVariable("groupNo") int groupNo) {
         CustomResponse response = groupService.selectGroupInUsers(groupNo);

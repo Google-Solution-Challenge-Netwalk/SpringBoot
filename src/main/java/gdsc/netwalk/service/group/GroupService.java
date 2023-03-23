@@ -149,7 +149,6 @@ public class GroupService {
             if("".equals(param.getString("category")) || param.getString("category") == null) {
                 param.set("category", "");
             }
-            System.out.println(param);
 
             CustomList<CustomMap> list =  groupMapper.selectCategoryGroup(param);
             response.setObject(list);
