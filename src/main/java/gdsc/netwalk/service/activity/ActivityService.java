@@ -27,26 +27,39 @@ public class ActivityService {
     public CustomResponse registerActivity(RegisterActivityRequest request) {
         CustomResponse response = new CustomResponse();
         try {
-            CustomMap param = new CustomMap();
             // [1] 활동 상세 내역 등록
-            param.set("user_no", request.getUser_no());
-            param.set("act_st", request.getAct_st());
-
-            CustomList<Integer> act_no_list = new CustomList<Integer>();
-
+            ObjectMapper mapper = new ObjectMapper();
+            CustomMap param = mapper.convertValue(request, new TypeReference<CustomMap>() {});
+            // 그룹 활동 기록 등록
             if(request.getGroups() != null) {
+                param.set("act_gb", "group");
+
+
+                // [1-1] 활동 내역 등록
+                activityMapper.registerActivity(param);
+
+                // [1-2] 그룹 활동 내역 등록
+
                 for(int group_no : request.getGroups()) {
                     param.set("group_no", group_no);
-                    activityMapper.registerActivity(param);
-                    act_no_list.add(param.getInt("act_no"));
+                    int cnt = activityMapper.isParticipateInGroup(param);
+                    if(cnt > 0) {
+                        activityMapper.registerGroupActivity(param);
+                    }
+                    else {
+                        response.setStatus("FAIL");
+                        response.setMessage("특정 그룹에 참여 정보가 없습니다.");
+                        return response;
+                    }
                 }
             }
+            // 개인 활동 기록 등록
             else {
+                param.set("act_gb", "indi");
                 activityMapper.registerActivity(param);
-                act_no_list.add(param.getInt("act_no"));
             }
 
-            response.setObject(act_no_list);
+            response.setObject(param.getInt("act_no"));
             response.setStatus("SUCCESS");
             response.setMessage("활동 내역 등록 성공");
 
@@ -73,10 +86,7 @@ public class ActivityService {
             activityMapper.updateActivity(param);
 
             // [2] 활동 이동 경로 등록
-            for(int act_no : request.getActivities()) {
-                param.set("act_no", act_no);
-                activityMapper.registerActivityDistance(param);
-            }
+            activityMapper.registerActivityDistance(param);
 
             response.setStatus("SUCCESS");
             response.setMessage("활동 내역 수정 성공");

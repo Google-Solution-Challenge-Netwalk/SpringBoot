@@ -10,19 +10,34 @@
 			INSERT INTO ACTIVITY_TB
 				(
 					USER_NO,
-					GROUP_NO,
 				 	ACT_ST,
+				 	ACT_GB,
 					REG_DT,
 					MOD_DT
 				)
 			VALUES
 				(
 					#{user_no},
-					#{group_no},
 					#{act_st},
+					#{act_gb},
 					NOW(),
 					NOW()
 				);
+		]]>
+	</insert>
+
+	<insert id="registerGroupActivity" parameterType="gdsc.netwalk.common.vo.CustomMap">
+		<![CDATA[
+			INSERT INTO GROUP_ACTIVITY_TB
+			(
+				USER_NO,
+				GROUP_NO
+			)
+			VALUES
+			(
+				#{user_no},
+				#{group_no}
+			)
 		]]>
 	</insert>
 
@@ -33,11 +48,8 @@
 				TOTAL_ACT_TIME = #{total_act_time},
 				SHARE_ST = #{share_st},
 				ACT_ST = #{act_st}
-			WHERE ACT_NO IN
+			WHERE ACT_NO = #{act_no};
 		]]>
-		<foreach item="act_no" collection="activities" open="(" separator="," close=")">
-			#{act_no}
-		</foreach>
 	</update>
 
 	<insert id="registerActivityDistance" parameterType="gdsc.netwalk.common.vo.CustomMap">
@@ -58,6 +70,16 @@
 			 )
 		</foreach>
 	</insert>
+
+	<select id="isParticipateInGroup" resultType="int">
+		<![CDATA[
+			SELECT
+				COUNT(*)
+			FROM USER_GROUP_TB
+			WHERE GROUP_NO = #{group_no}
+			AND USER_NO = #{user_no};
+		]]>
+	</select>
 
 	<select id="selectAllActivity" resultType="gdsc.netwalk.common.vo.CustomMap">
 		<![CDATA[
@@ -88,6 +110,7 @@
 				TOTAL_ACT_DISTANCE AS total_act_distance,
 				TOTAL_ACT_TIME AS total_act_time,
 				SHARE_ST AS share_st,
+				ACT_GB AS act_gb,
 				DATE_FORMAT(REG_DT, "%Y-%m-%d") AS reg_dt
 			FROM ACTIVITY_TB
 			WHERE USER_NO = #{user_no}

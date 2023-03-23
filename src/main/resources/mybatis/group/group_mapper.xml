@@ -147,9 +147,10 @@
 				SUM(ATB.TOTAL_ACT_DISTANCE) AS total_act_distance,
 				SUM(ATB.TOTAL_ACT_TIME) AS total_act_time
 			FROM USER_GROUP_TB UGT
-					 inner join USER_TB UT ON UGT.USER_NO = UT.USER_NO
-					 inner join ACTIVITY_TB ATB on ATB.USER_NO = UT.USER_NO
+					 INNER JOIN USER_TB UT ON UGT.USER_NO = UT.USER_NO
+					 INNER JOIN ACTIVITY_TB ATB ON ATB.USER_NO = UT.USER_NO
 			WHERE UGT.GROUP_NO = #{group_no}
+			  AND ATB.ACT_GB = 'group'
 			GROUP BY UGT.USER_NO
 		]]>
 	</select>
