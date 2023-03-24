@@ -86,12 +86,16 @@ CREATE TABLE `activity_distance_tb` (
 
 -- netwalk.activity_trash_tb definition
 
+-- netwalk.activity_trash_tb definition
+
 CREATE TABLE `activity_trash_tb` (
  `TRASH_NO` int NOT NULL AUTO_INCREMENT COMMENT '수집쓰레기번호',
  `ACT_NO` int NOT NULL COMMENT '활동내역번호',
  `IMG_URL` varchar(500) NOT NULL COMMENT '쓰레기 이미지 URL',
- `CATEGORY` varchar(100) NOT NULL COMMENT '카테고리',
+ `CATEGORY` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '카테고리',
+ `REG_DT` datetime NOT NULL COMMENT '등록일시',
+ `MOD_DT` datetime NOT NULL COMMENT '수정일시',
  PRIMARY KEY (`TRASH_NO`),
  KEY `ACTIVITY_TRASH_TB_FK` (`ACT_NO`),
  CONSTRAINT `ACTIVITY_TRASH_TB_FK` FOREIGN KEY (`ACT_NO`) REFERENCES `activity_tb` (`ACT_NO`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='활동중 수집 쓰레기';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='활동중 수집 쓰레기';
