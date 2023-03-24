@@ -20,13 +20,13 @@ import java.io.InputStream;
 @Component
 public class DataBuketUtil {
 
-    @Value("${cloud.gcp.credentials.location}")
+    @Value("${spring.cloud.gcp.credentials.location}")
     private String gcpConfigFile;
 
-    @Value("${cloud.gcp.project-id}")
+    @Value("${spring.cloud.gcp.project-id}")
     private String gcpProjectId;
 
-    @Value("${cloud.gcp.bucket-id}")
+    @Value("${spring.cloud.gcp.bucket-id}")
     private String gcpBucketId;
 
     public FileDto uploadFile(MultipartFile multipartFile, String fileName, String contentType) throws Exception {
