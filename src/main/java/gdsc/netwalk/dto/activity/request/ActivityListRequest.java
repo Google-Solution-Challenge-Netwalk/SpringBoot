@@ -9,5 +9,4 @@ import lombok.*;
 @AllArgsConstructor
 public class ActivityListRequest {
     private int user_no;
-    private String act_st;
 }

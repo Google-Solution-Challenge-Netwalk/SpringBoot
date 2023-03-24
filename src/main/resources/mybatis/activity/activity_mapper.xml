@@ -89,7 +89,6 @@
 				UT.EMAIL AS email,
 				UT.IMG_URL AS img_url,
 				ATB.ACT_NO AS act_no,
-				ATB.GROUP_NO AS group_no,
 				ATB.TOTAL_ACT_DISTANCE AS total_act_distance,
 				ATB.TOTAL_ACT_TIME AS total_act_time,
 				ATB.SHARE_ST AS share_st,
@@ -98,7 +97,7 @@
 			INNER JOIN USER_TB UT
 			ON ATB.USER_NO = UT.USER_NO
 			WHERE ATB.SHARE_ST = 1
-			AND ATB.ACT_ST = 'progress';
+			AND ATB.ACT_ST = 'finish';
 		]]>
 	</select>
 
@@ -106,7 +105,6 @@
 		<![CDATA[
 			SELECT
 				ACT_NO AS act_no,
-				GROUP_NO AS group_no,
 				TOTAL_ACT_DISTANCE AS total_act_distance,
 				TOTAL_ACT_TIME AS total_act_time,
 				SHARE_ST AS share_st,
@@ -114,7 +112,7 @@
 				DATE_FORMAT(REG_DT, "%Y-%m-%d") AS reg_dt
 			FROM ACTIVITY_TB
 			WHERE USER_NO = #{user_no}
-		  	AND ATB.ACT_ST = 'progress';
+		  	AND ATB.ACT_ST = 'finish';
 		]]>
 	</select>
 
@@ -149,7 +147,7 @@
 			FROM ACTIVITY_TB ATB
 			INNER JOIN USER_TB UT
 			ON ATB.USER_NO = UT.USER_NO
-			WHERE ATB.ACT_ST = 'progress'
+			WHERE ATB.ACT_ST = 'finish'
 			GROUP BY ATB.USER_NO
 			ORDER BY RANKING ASC;
 		]]>
