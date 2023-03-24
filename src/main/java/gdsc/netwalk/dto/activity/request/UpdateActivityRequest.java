@@ -13,6 +13,8 @@ import lombok.*;
 public class UpdateActivityRequest {
 
     private int act_no;
+    private int user_no;
+    private CustomList<Integer> groups;
     private double total_act_distance;
     private double total_act_time;
     private int share_st;

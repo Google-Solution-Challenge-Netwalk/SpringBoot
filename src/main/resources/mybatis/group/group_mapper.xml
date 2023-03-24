@@ -101,7 +101,7 @@
 				(
 					#{user_no},
 					#{group_no},
-				 	1,
+				 	0,
 				 	0,
 				 	NOW(),
 					NOW()
@@ -141,17 +141,27 @@
 	<select id="selectGroupInUsers" parameterType="int" resultType="gdsc.netwalk.common.vo.CustomMap">
 		<![CDATA[
 			SELECT
-				ATB.USER_NO AS user_no,
+				UT.USER_NO AS user_no,
 				UT.NAME AS name,
 				UT.EMAIL AS email,
+				UGT.ACT_ST AS act_st,
 				SUM(ATB.TOTAL_ACT_DISTANCE) AS total_act_distance,
 				SUM(ATB.TOTAL_ACT_TIME) AS total_act_time
 			FROM USER_GROUP_TB UGT
 					 INNER JOIN USER_TB UT ON UGT.USER_NO = UT.USER_NO
 					 INNER JOIN ACTIVITY_TB ATB ON ATB.USER_NO = UT.USER_NO
 			WHERE UGT.GROUP_NO = #{group_no}
-			  AND ATB.ACT_GB = 'group'
+			AND ATB.ACT_GB = 'group'
 			GROUP BY UGT.USER_NO
 		]]>
 	</select>
+
+	<update id="updateGroupActivityST" parameterType="gdsc.netwalk.common.vo.CustomMap">
+		<![CDATA[
+			UPDATE USER_GROUP_TB SET
+			   ACT_ST = #{act_st}
+			WHERE user_no = #{user_no}
+			AND group_no = #{group_no};
+		]]>
+	</update>
 </mapper>

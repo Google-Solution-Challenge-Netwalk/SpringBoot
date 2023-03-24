@@ -192,4 +192,13 @@
 		]]>
 	</insert>
 
+	<select id="selectActivityGB" parameterType="int" resultType="String">
+		<![CDATA[
+			SELECT
+				ACT_GB AS act_gb
+			FROM ACTIVITY_TB
+			WHERE ACT_NO = #{act_no}
+		]]>
+	</select>
+
 </mapper>

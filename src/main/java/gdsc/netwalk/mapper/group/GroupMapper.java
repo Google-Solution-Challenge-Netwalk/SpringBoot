@@ -13,4 +13,5 @@ public interface GroupMapper {
     int isExistParticipatedByUserNo(CustomMap param);
     CustomList<CustomMap> selectCategoryGroup(CustomMap param);
     CustomList<CustomMap> selectGroupInUsers(int groupNo);
+    void updateGroupActivityST(CustomMap param);
 }

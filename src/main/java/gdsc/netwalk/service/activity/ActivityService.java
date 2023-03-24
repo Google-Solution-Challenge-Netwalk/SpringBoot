@@ -6,11 +6,12 @@ import gdsc.netwalk.common.vo.CustomList;
 import gdsc.netwalk.common.vo.CustomMap;
 import gdsc.netwalk.dto.activity.request.ActivityListRequest;
 import gdsc.netwalk.dto.activity.request.RegisterActivityRequest;
+import gdsc.netwalk.dto.activity.request.UpdateAcitivtyShareSTRequest;
 import gdsc.netwalk.dto.activity.request.UpdateActivityRequest;
 import gdsc.netwalk.dto.common.CustomResponse;
-import gdsc.netwalk.dto.activity.request.UpdateAcitivtyShareSTRequest;
 import gdsc.netwalk.dto.user.response.LoginResponse;
 import gdsc.netwalk.mapper.activity.ActivityMapper;
+import gdsc.netwalk.mapper.group.GroupMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class ActivityService {
     @Autowired
     ActivityMapper activityMapper;
+
+    @Autowired
+    GroupMapper groupMapper;
 
     /*
     * 활동 내역 등록
@@ -34,17 +38,19 @@ public class ActivityService {
             if(request.getGroups() != null) {
                 param.set("act_gb", "group");
 
-
                 // [1-1] 활동 내역 등록
                 activityMapper.registerActivity(param);
 
                 // [1-2] 그룹 활동 내역 등록
-
                 for(int group_no : request.getGroups()) {
                     param.set("group_no", group_no);
                     int cnt = activityMapper.isParticipateInGroup(param);
                     if(cnt > 0) {
                         activityMapper.registerGroupActivity(param);
+
+                        // [1-3] 그룹 참여 회원 활성화 상태('활성화') 변경
+                        param.set("act_st", 1); // '활성화' 상태로 수정
+                        groupMapper.updateGroupActivityST(param);
                     }
                     else {
                         response.setStatus("FAIL");
@@ -87,6 +93,17 @@ public class ActivityService {
 
             // [2] 활동 이동 경로 등록
             activityMapper.registerActivityDistance(param);
+
+            if("group".equals(activityMapper.selectActivityGB(request.getAct_no()))) {
+                // [3] 그룹 참여 회원 활성화 상태('비활성화') 변경
+
+                param.set("act_st", 0); // '비활성화' 상태로 수정
+                param.set("user_no", request.getUser_no()); // '비활성화' 상태로 수정
+                for(int group_no : request.getGroups()) {
+                    param.set("group_no", group_no); // '비활성화' 상태로 수정
+                    groupMapper.updateGroupActivityST(param);
+                }
+            }
 
             response.setStatus("SUCCESS");
             response.setMessage("활동 내역 수정 성공");
