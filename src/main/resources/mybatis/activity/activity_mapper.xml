@@ -110,7 +110,7 @@
 				SHARE_ST AS share_st,
 				ACT_GB AS act_gb,
 				DATE_FORMAT(REG_DT, "%Y-%m-%d") AS reg_dt
-			FROM ACTIVITY_TB
+			FROM ACTIVITY_TB ATB
 			WHERE USER_NO = #{user_no}
 		  	AND ATB.ACT_ST = 'finish';
 		]]>
