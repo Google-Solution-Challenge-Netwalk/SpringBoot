@@ -171,4 +171,25 @@
 		]]>
 	</select>
 
+	<insert id="registerActivityTrashImg" parameterType="gdsc.netwalk.common.vo.CustomMap">
+		<![CDATA[
+			INSERT INTO ACTIVITY_TRASH_TB
+				(
+					ACT_NO,
+					IMG_URL,
+					CATEGORY,
+					REG_DT,
+					MOD_DT
+				)
+			VALUES
+				(
+					#{act_no},
+					#{img_url},
+					#{category},
+					NOW(),
+					NOW()
+				);
+		]]>
+	</insert>
+
 </mapper>
