@@ -168,8 +168,13 @@
 	<update id="updateParticipantCnt" parameterType="gdsc.netwalk.common.vo.CustomMap">
 		<![CDATA[
 			UPDATE GROUP_TB SET
-				PARTICIPANT = PARTICIPANT + 1
-			WHERE group_no = #{group_no};
+				PARTICIPANT = (
+					SELECT
+						COUNT(*)
+					FROM USER_GROUP_TB UGB
+					WHERE UGB.GROUP_NO = #{group_no}
+				)
+			WHERE group_no = #{group_no}
 		]]>
 	</update>
 </mapper>
