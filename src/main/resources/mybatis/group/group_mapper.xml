@@ -165,9 +165,9 @@
 		]]>
 	</update>
 
-	<update id="updateParticipateCnt" parameterType="gdsc.netwalk.common.vo.CustomMap">
+	<update id="updateParticipantCnt" parameterType="gdsc.netwalk.common.vo.CustomMap">
 		<![CDATA[
-			UPDATE USER_GROUP_TB SET
+			UPDATE GROUP_TB SET
 				PARTICIPANT = PARTICIPANT + 1
 			WHERE group_no = #{group_no};
 		]]>
