@@ -119,6 +119,9 @@ public class GroupService {
 
                 groupMapper.participateGroup(param);
 
+                // [1-2] 그룹 참여자 수 업데이트
+                groupMapper.updateParticipantCnt(param);
+
                 response.setStatus("SUCCESS");
                 response.setMessage("그룹 참여 성공");
             }

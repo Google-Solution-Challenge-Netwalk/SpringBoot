@@ -14,4 +14,5 @@ public interface GroupMapper {
     CustomList<CustomMap> selectCategoryGroup(CustomMap param);
     CustomList<CustomMap> selectGroupInUsers(int groupNo);
     void updateGroupActivityST(CustomMap param);
+    void updateParticipantCnt(CustomMap param);
 }
