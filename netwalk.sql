@@ -19,7 +19,7 @@ CREATE TABLE `group_tb` (
   `NAME` varchar(100) NOT NULL COMMENT '그룹명',
   `CAPACITY` int NOT NULL COMMENT '정원',
   `PARTICIPANT` int NOT NULL COMMENT '참여인원',
-  `CATEGORY` varchar(4) NOT NULL COMMENT '그룹구분',
+  `CATEGORY` varchar(30) NOT NULL COMMENT '그룹구분',
   `DEL_ST` binary(1) NOT NULL COMMENT '그룹삭제여부',
   `REG_DT` datetime NOT NULL COMMENT '등록일자',
   `MOD_DT` datetime NOT NULL COMMENT '수정일자',
