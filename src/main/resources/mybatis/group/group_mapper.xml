@@ -173,8 +173,8 @@
 						COUNT(*)
 					FROM USER_GROUP_TB UGB
 					WHERE UGB.GROUP_NO = #{group_no}
-				)
-			WHERE group_no = #{group_no}
+				) + 1
+			WHERE group_no = #{group_no};
 		]]>
 	</update>
 </mapper>
