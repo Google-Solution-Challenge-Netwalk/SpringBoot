@@ -1,9 +1,7 @@
 package gdsc.netwalk.gcs.service;
 
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
+import com.google.cloud.storage.*;
 import gdsc.netwalk.common.vo.CustomMap;
 import gdsc.netwalk.dto.common.CustomResponse;
 import gdsc.netwalk.gcs.dto.GCSUploadFileRequest;
@@ -15,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
@@ -32,6 +31,9 @@ public class GCSService {
 
     @Value("${spring.cloud.gcp.storage.bucket}")
     private String bucketName;
+
+    private final String FILE_STORE_LOCATION = "/Users/jeongminchang/Desktop/repo/2023-solution-challenge-netwalk/IMG/";
+    private final String BASE_URL = "https://storage.cloud.google.com/";
 
     /*
     * GCS 파일 업로드
@@ -52,17 +54,25 @@ public class GCSService {
                     .setCredentials(GoogleCredentials.fromStream(keyFile))
                     .build().getService();
 
-            BlobInfo blobInfo = storage.create(
-                    BlobInfo.newBuilder(bucketName, uuid)
-                            .setContentType(ext)
-                            .build()
-            );
-
-            System.out.println(uuid);
+            String fileName = UUID.randomUUID().toString() + "." + getFileExtension(file.getOriginalFilename());
+            BlobId blobId = BlobId.of(bucketName, fileName);
+            BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(file.getContentType()).build();
+            Blob blob = storage.create(blobInfo, file.getBytes());
 
             // [2] img url Local DB 저장
-            String default_url = "https://storage.cloud.google.com/";
-            String img_url = default_url + bucketName + "/" + uuid;
+            // [2-1] img local 저장
+            String fileType = file.getContentType();
+            long fileSize = file.getSize();
+
+            File saveFile = new File(FILE_STORE_LOCATION + fileName);
+            if(!saveFile.getParentFile().exists()) {
+                saveFile.getParentFile().mkdirs();
+            }
+
+            file.transferTo(saveFile);
+
+            // [2-2] img url local DB 저장
+            String img_url = BASE_URL + bucketName + "/" +blob.getName();
 
             CustomMap param = new CustomMap();
             param.set("act_no", request.getAct_no());
@@ -80,5 +90,9 @@ public class GCSService {
             System.out.println("exception: " + e);
         }
         return response;
+    }
+
+    private String getFileExtension(String fileName) {
+        return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 }
