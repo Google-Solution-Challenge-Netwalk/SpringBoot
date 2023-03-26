@@ -7,7 +7,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryGroupListRequest {
-    private String category;
+public class GroupListByCreateUserRequest {
+    private int create_user_no;
     private int group_no;
 }

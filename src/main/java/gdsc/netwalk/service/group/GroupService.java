@@ -6,8 +6,10 @@ import gdsc.netwalk.common.vo.CustomList;
 import gdsc.netwalk.common.vo.CustomMap;
 import gdsc.netwalk.dto.common.CustomResponse;
 import gdsc.netwalk.dto.group.request.CategoryGroupListRequest;
+import gdsc.netwalk.dto.group.request.GroupListByCreateUserRequest;
 import gdsc.netwalk.dto.group.request.ParticipateGroupRequest;
 import gdsc.netwalk.dto.group.request.RegisterGroupRequest;
+import gdsc.netwalk.dto.group.request.socket.ParticipateGroupListRequest;
 import gdsc.netwalk.mapper.group.GroupMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,10 +56,11 @@ public class GroupService {
     /*
     * 생성 그룹 조회
     * */
-    public CustomResponse selectGroupListByCreateUserNo(HttpServletRequest request, int createUserNo) {
+    public CustomResponse selectGroupListByCreateUserNo(HttpServletRequest request, GroupListByCreateUserRequest groupListByCreateUserRequest) {
         CustomResponse response = new CustomResponse();
 
         try {
+            int createUserNo = groupListByCreateUserRequest.getCreate_user_no();
             // 로그인한 유저와 요청한 유저의 일치 여부 검사
             if((int) request.getSession().getAttribute("loginUser")  == createUserNo) {
                 // [1] 생성 그룹 조회
@@ -84,12 +87,15 @@ public class GroupService {
     /*
      * 참여 그룹 조회
      * */
-    public CustomResponse selectParticipateGroupList(int userNo) {
+    public CustomResponse selectParticipateGroupList(ParticipateGroupListRequest request) {
         CustomResponse response = new CustomResponse();
 
         try {
             // [1] 참여 그룹 조회
-            CustomList<CustomMap> list = groupMapper.selectParticipateGroupList(userNo);
+            ObjectMapper mapper = new ObjectMapper();
+            CustomMap param = mapper.convertValue(request, new TypeReference<CustomMap>() {});
+
+            CustomList<CustomMap> list = groupMapper.selectParticipateGroupList(param);
             response.setObject(list);
             response.setStatus("SUCCESS");
             response.setMessage("참여 그룹 조회");
@@ -118,10 +124,6 @@ public class GroupService {
             if(groupMapper.isExistParticipatedByUserNo(param) < 1) {
 
                 groupMapper.participateGroup(param);
-
-                // [1-2] 그룹 참여자 수 업데이트
-                groupMapper.updateParticipantCnt(param);
-
                 response.setStatus("SUCCESS");
                 response.setMessage("그룹 참여 성공");
             }

@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface GroupMapper {
     void registerGroup(CustomMap param);
     CustomList<CustomMap> selectGroupListByCreateUserNo(int createUserNo);
-    CustomList<CustomMap> selectParticipateGroupList(int userNo);
+    CustomList<CustomMap> selectParticipateGroupList(CustomMap param);
     void participateGroup(CustomMap param);
     int isExistParticipatedByUserNo(CustomMap param);
     CustomList<CustomMap> selectCategoryGroup(CustomMap param);

@@ -2,8 +2,10 @@ package gdsc.netwalk.controller.group;
 
 import gdsc.netwalk.dto.common.CustomResponse;
 import gdsc.netwalk.dto.group.request.CategoryGroupListRequest;
+import gdsc.netwalk.dto.group.request.GroupListByCreateUserRequest;
 import gdsc.netwalk.dto.group.request.ParticipateGroupRequest;
 import gdsc.netwalk.dto.group.request.RegisterGroupRequest;
+import gdsc.netwalk.dto.group.request.socket.ParticipateGroupListRequest;
 import gdsc.netwalk.service.group.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,15 +29,17 @@ public class GroupController {
         return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/me/{createUserNo}")
-    public ResponseEntity<CustomResponse> selectGroupListByCreateUserNo(HttpServletRequest request, @PathVariable("createUserNo") int createUserNo) {
-        CustomResponse response = groupService.selectGroupListByCreateUserNo(request, createUserNo);
+    @ResponseBody
+    @PostMapping("/created/me")
+    public ResponseEntity<CustomResponse> selectGroupListByCreateUserNo(HttpServletRequest request, @RequestBody GroupListByCreateUserRequest groupListByCreateUserRequest) {
+        CustomResponse response = groupService.selectGroupListByCreateUserNo(request, groupListByCreateUserRequest);
         return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/part/{userNo}")
-    public ResponseEntity<CustomResponse> selectParticipateGroupList(HttpServletRequest request, @PathVariable("userNo") int userNo) {
-        CustomResponse response = groupService.selectParticipateGroupList(userNo);
+    @ResponseBody
+    @PostMapping("/part/me")
+    public ResponseEntity<CustomResponse> selectParticipateGroupList(@RequestBody ParticipateGroupListRequest participateGroupListRequest) {
+        CustomResponse response = groupService.selectParticipateGroupList(participateGroupListRequest);
         return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
     }
 

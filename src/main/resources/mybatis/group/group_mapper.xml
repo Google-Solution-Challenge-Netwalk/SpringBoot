@@ -12,7 +12,6 @@
 				 	CREATE_USER_NO,
 					NAME,
 					CAPACITY,
-				 	PARTICIPANT,
 				 	CATEGORY,
 				    DEL_ST,
 					REG_DT,
@@ -23,7 +22,6 @@
 					#{create_user_no},
 					#{name},
 					#{capacity},
-					#{participant},
 					#{category},
 				    0,
 					NOW(),
@@ -32,14 +30,19 @@
         ]]>
 	</insert>
 
-	<select id="selectParticipateGroupList" parameterType="int" resultType="gdsc.netwalk.common.vo.CustomMap">
+	<select id="selectParticipateGroupList" parameterType="gdsc.netwalk.common.vo.CustomMap" resultType="gdsc.netwalk.common.vo.CustomMap">
 		<![CDATA[
 			SELECT
 				GT.NAME AS name,
 				GT.GROUP_NO AS group_no,
 				GT.CREATE_USER_NO AS create_user_no,
 				GT.CAPACITY AS capacity,
-				GT.PARTICIPANT AS participant,
+				(
+					SELECT
+						COUNT(*)
+					FROM USER_GROUP_TB UGT2
+					WHERE UGT.GROUP_NO = UGT2.GROUP_NO
+				) AS participant,
 				GT.CATEGORY AS category,
 				DATE_FORMAT(GT.REG_DT, '%Y-%m-%d') AS reg_dt,
 				DATE_FORMAT(GT.MOD_DT, '%Y-%m-%d') AS mod_dt,
@@ -51,26 +54,31 @@
 				ON GT.GROUP_NO = UGT.GROUP_NO
 			WHERE
 				GT.DEL_ST = 0 AND
-				UGT.USER_NO = #{userNo}
+				UGT.USER_NO = #{user_no}
 		]]>
 	</select>
 
 	<select id="selectGroupListByCreateUserNo" parameterType="int" resultType="gdsc.netwalk.common.vo.CustomMap">
 		<![CDATA[
 			SELECT
-				GROUP_NO AS group_no,
-				CREATE_USER_NO AS create_user_no,
-				NAME AS name,
-				CAPACITY AS capacity,
-				PARTICIPANT AS participant,
-				CATEGORY AS category,
-				DEL_ST AS del_st,
-				DATE_FORMAT(REG_DT, '%Y-%m-%d') AS reg_dt,
-				DATE_FORMAT(MOD_DT, '%Y-%m-%d') AS mod_dt
+				GT.GROUP_NO AS group_no,
+				GT.CREATE_USER_NO AS create_user_no,
+				GT.NAME AS name,
+				GT.CAPACITY AS capacity,
+				(
+					SELECT
+						COUNT(*)
+					FROM USER_GROUP_TB UGB
+					WHERE UGB.GROUP_NO = GT.GROUP_NO
+				) AS participant,
+				GT.CATEGORY AS category,
+				GT.DEL_ST AS del_st,
+				DATE_FORMAT(GT.REG_DT, '%Y-%m-%d') AS reg_dt,
+				DATE_FORMAT(GT.MOD_DT, '%Y-%m-%d') AS mod_dt
 			FROM
-				GROUP_TB
+				GROUP_TB GT
 			WHERE
-				CREATE_USER_NO = #{createUserNo};
+				GT.CREATE_USER_NO = #{create_user_no};
 		]]>
 	</select>
 
@@ -112,29 +120,34 @@
 	<select id="selectCategoryGroup" parameterType="gdsc.netwalk.common.vo.CustomMap" resultType="gdsc.netwalk.common.vo.CustomMap">
 		<![CDATA[
 			SELECT
-				GROUP_NO AS group_no,
-				CREATE_USER_NO AS create_user_no,
-				NAME AS name,
-				CAPACITY AS capacity,
-				PARTICIPANT AS participant,
-				CATEGORY AS category,
-				DEL_ST AS del_st,
-				DATE_FORMAT(REG_DT, '%Y-%m-%d') AS reg_dt,
-				DATE_FORMAT(MOD_DT, '%Y-%m-%d') AS mod_dt
+				GT.GROUP_NO AS group_no,
+				GT.CREATE_USER_NO AS create_user_no,
+				GT.NAME AS name,
+				GT.CAPACITY AS capacity,
+				(
+					SELECT
+						COUNT(*)
+					FROM USER_GROUP_TB UGB
+					WHERE UGB.GROUP_NO = GT.GROUP_NO
+				) AS participant,
+				GT.CATEGORY AS category,
+				GT.DEL_ST AS del_st,
+				DATE_FORMAT(GT.REG_DT, '%Y-%m-%d') AS reg_dt,
+				DATE_FORMAT(GT.MOD_DT, '%Y-%m-%d') AS mod_dt
 			FROM
-				GROUP_TB
+				GROUP_TB GT
 			]]>
 			<choose>
 				<when test="category !=null and !category.equals('')">
 					<![CDATA[
 						WHERE
-							CATEGORY = #{category}
+							GT.CATEGORY = #{category}
 					]]>
 				</when>
 			</choose>
 		<![CDATA[
 			ORDER BY
-				REG_DT DESC;
+				GT.REG_DT DESC;
 		]]>
 	</select>
 
@@ -148,8 +161,8 @@
 				SUM(ATB.TOTAL_ACT_DISTANCE) AS total_act_distance,
 				SUM(ATB.TOTAL_ACT_TIME) AS total_act_time
 			FROM USER_GROUP_TB UGT
-					 INNER JOIN USER_TB UT ON UGT.USER_NO = UT.USER_NO
-					 INNER JOIN ACTIVITY_TB ATB ON ATB.USER_NO = UT.USER_NO
+			INNER JOIN USER_TB UT ON UGT.USER_NO = UT.USER_NO
+			INNER JOIN ACTIVITY_TB ATB ON ATB.USER_NO = UT.USER_NO
 			WHERE UGT.GROUP_NO = #{group_no}
 			AND ATB.ACT_GB = 'group'
 			GROUP BY UGT.USER_NO
@@ -173,7 +186,7 @@
 						COUNT(*)
 					FROM USER_GROUP_TB UGB
 					WHERE UGB.GROUP_NO = #{group_no}
-				) + 1
+				)
 			WHERE group_no = #{group_no};
 		]]>
 	</update>
