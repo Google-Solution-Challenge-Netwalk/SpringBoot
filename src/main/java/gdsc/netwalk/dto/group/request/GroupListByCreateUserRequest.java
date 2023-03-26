@@ -9,5 +9,4 @@ import lombok.*;
 @AllArgsConstructor
 public class GroupListByCreateUserRequest {
     private int create_user_no;
-    private int group_no;
 }
