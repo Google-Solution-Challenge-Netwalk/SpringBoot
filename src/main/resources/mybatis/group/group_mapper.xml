@@ -158,14 +158,23 @@
 				UT.NAME AS name,
 				UT.EMAIL AS email,
 				UGT.ACT_ST AS act_st,
-				SUM(ATB.TOTAL_ACT_DISTANCE) AS total_act_distance,
-				SUM(ATB.TOTAL_ACT_TIME) AS total_act_time
+				IFNULL((
+					   SELECT
+						   SUM(ATB.TOTAL_ACT_DISTANCE) AS total_act_distance
+					   FROM ACTIVITY_TB ATB
+					   WHERE ATB.USER_NO = UGT.USER_NO
+					   GROUP BY ATB.USER_NO
+				   	   ), 0)  AS total_act_distance,
+				IFNULL((
+					   SELECT
+						   SUM(ATB.TOTAL_ACT_TIME) AS total_act_time
+					   FROM ACTIVITY_TB ATB
+					   WHERE ATB.USER_NO = UGT.USER_NO
+					   GROUP BY ATB.USER_NO
+				  	   ), 0)AS total_act_time
 			FROM USER_GROUP_TB UGT
 			INNER JOIN USER_TB UT ON UGT.USER_NO = UT.USER_NO
-			INNER JOIN ACTIVITY_TB ATB ON ATB.USER_NO = UT.USER_NO
-			WHERE UGT.GROUP_NO = #{group_no}
-			AND ATB.ACT_GB = 'group'
-			GROUP BY UGT.USER_NO
+			WHERE UGT.GROUP_NO = #{group_no};
 		]]>
 	</select>
 
