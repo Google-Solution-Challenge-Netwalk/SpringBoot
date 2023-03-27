@@ -8,12 +8,12 @@ import gdsc.netwalk.gcs.dto.GCSUploadFileRequest;
 import gdsc.netwalk.mapper.activity.ActivityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
@@ -32,7 +32,9 @@ public class GCSService {
     @Value("${spring.cloud.gcp.storage.bucket}")
     private String bucketName;
 
-    private final String FILE_STORE_LOCATION = "/Users/jeongminchang/Desktop/repo/2023-solution-challenge-netwalk/IMG/";
+    @Autowired
+    private ResourceLoader resourceLoader;
+
     private final String BASE_URL = "https://storage.cloud.google.com/";
 
     /*
@@ -60,16 +62,18 @@ public class GCSService {
             Blob blob = storage.create(blobInfo, file.getBytes());
 
             // [2] img url Local DB 저장
-            // [2-1] img local 저장
-            String fileType = file.getContentType();
+            // [2-1] img local 저장 - 로컬에 이미지 저장은 안해도될듯?
+            /*String fileType = file.getContentType();
             long fileSize = file.getSize();
 
-            File saveFile = new File(FILE_STORE_LOCATION + fileName);
+            String path = "src/main/resources/images";
+
+            File saveFile = new File(path + fileName);
             if(!saveFile.getParentFile().exists()) {
                 saveFile.getParentFile().mkdirs();
             }
 
-            file.transferTo(saveFile);
+            file.transferTo(saveFile);*/
 
             // [2-2] img url local DB 저장
             String img_url = BASE_URL + bucketName + "/" +blob.getName();
