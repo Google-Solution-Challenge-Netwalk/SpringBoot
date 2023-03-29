@@ -92,7 +92,13 @@
 				ATB.TOTAL_ACT_DISTANCE AS total_act_distance,
 				ATB.TOTAL_ACT_TIME AS total_act_time,
 				ATB.SHARE_ST AS share_st,
-				DATE_FORMAT(ATB.REG_DT, "%Y-%m-%d") AS reg_dt
+				DATE_FORMAT(ATB.REG_DT, "%Y-%m-%d") AS reg_dt,
+				IFNULL((
+				   SELECT
+					   COUNT(*)
+				   FROM ACTIVITY_TRASH_TB ATT
+				   WHERE ATT.ACT_NO = ATB.ACT_NO
+			    ), 0) AS trash_cnt
 			FROM ACTIVITY_TB ATB
 			INNER JOIN USER_TB UT
 			ON ATB.USER_NO = UT.USER_NO
