@@ -17,7 +17,3 @@
 
 [시연영상](https://www.youtube.com/watch?v=B_s8hUDXmUs&t=8s)
 
-
-## ERD
-
-![erd](https://user-images.githubusercontent.com/65451455/221513323-7f92c726-507e-4b73-93d3-0344284f9e99.png)
